@@ -38,6 +38,7 @@ const CategoryList = ({categories}) => {
         <tr className="bg-gray-100">
           <th className="border border-gray-300 p-2">Image</th>
           <th className="border border-gray-300 p-2">Title</th>
+          <th className="border border-gray-300 p-2">Added By</th>
           <th className="border border-gray-300 p-2">Actions</th>
         </tr>
         </thead>
@@ -53,13 +54,15 @@ const CategoryList = ({categories}) => {
                     alt={`${category.title}`}
                     className="w-16 h-16 object-cover rounded"
                   />
-                 : <div className="  flex justify-center items-center rounded">
-                  <span className="text-sm text-gray-600">No Images</span>
-                </div>}
+                  : <div className="  flex justify-center items-center rounded">
+                    <span className="text-sm text-gray-600">No Images</span>
+                  </div>}
               </div>
             </td>
             <td className="border border-gray-300 p-2">{category.title}</td>
-
+            <td className="border border-gray-300 p-2">
+              {category.admin_user.name}
+            </td>
             <td className="border border-gray-300 p-2">
               <div className="flex gap-2">
                 <button

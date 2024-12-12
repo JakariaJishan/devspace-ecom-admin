@@ -15,7 +15,7 @@ const LoginPage = () => {
     form.append("user[email]", email);
     form.append("user[password]", password);
 
-    postData(apiUrl, payload)
+    postData(apiUrl, form)
       .then((response) => {
         toast.success(response.message || "Login successful");
         console.log(response);

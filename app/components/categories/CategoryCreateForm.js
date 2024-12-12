@@ -5,6 +5,8 @@ const CategoryCreateForm = ({ onCreate }) => {
   const [formData, setFormData] = useState({
     title: "",
     images: "",
+    admin_user_id: JSON.parse(localStorage.getItem("admin_user")).id,
+
   });
 
   // Handle input changes
@@ -32,6 +34,7 @@ const CategoryCreateForm = ({ onCreate }) => {
     // Append form data fields to FormData
     form.append("category[title]", formData.title);
     form.append("category[image]", formData.image);
+    form.append("category[admin_user_id]", formData.admin_user_id);
 
     onCreate(form); // Call the onCreate function passed as a prop with the form data
   };

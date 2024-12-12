@@ -11,6 +11,7 @@ const ProductCreateForm = ({ onCreate, categories }) => {
     trending: false,
     images: [], // This will store the uploaded image files
     category_id: "",
+    admin_user_id: JSON.parse(localStorage.getItem("admin_user")).id,
   });
 
   // Handle input changes
@@ -43,6 +44,7 @@ const ProductCreateForm = ({ onCreate, categories }) => {
     form.append("product[currency]", formData.currency);
     form.append("product[trending]", formData.trending);
     form.append("product[category_id]", formData.category_id);
+    form.append("product[admin_user_id]", formData.admin_user_id);
 
     // Append each image file to FormData
     formData.images.forEach((image, index) => {

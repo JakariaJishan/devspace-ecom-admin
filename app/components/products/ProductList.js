@@ -39,6 +39,7 @@ const ProductList = ({products}) => {
           <th className="border border-gray-300 p-2">Image</th>
           <th className="border border-gray-300 p-2">Title</th>
           <th className="border border-gray-300 p-2">Description</th>
+          <th className="border border-gray-300 p-2">Added By</th>
           <th className="border border-gray-300 p-2">Price</th>
           <th className="border border-gray-300 p-2">Stock</th>
           <th className="border border-gray-300 p-2">Trending</th>
@@ -65,6 +66,9 @@ const ProductList = ({products}) => {
             <td className="border border-gray-300 p-2">{product.title}</td>
             <td className="border border-gray-300 p-2">
               {product.description}
+            </td>
+            <td className="border border-gray-300 p-2">
+              {product.admin_user.name}
             </td>
             <td className="border border-gray-300 p-2">
               {product.price} {product.currency}
