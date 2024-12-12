@@ -1,6 +1,5 @@
 "use client"
 import useGetFetch from "@/app/hooks/useGetFetch";
-import SideMenu from "@/app/components/SideMenu";
 import Loader from "@/app/lib/Loader";
 import CategoryList from "@/app/components/categories/CategoryList";
 
@@ -13,11 +12,9 @@ const page = () => {
   }
 
   return (
-    <div className="flex">
-      <SideMenu/>
-      <div className="w-[80%] px-4 py-6">
-        <CategoryList categories={data}/>
-      </div>
+
+    <div className="px-4 py-6">
+      <CategoryList categories={data}/>
     </div>
   )
 }

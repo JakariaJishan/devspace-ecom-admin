@@ -1,13 +1,12 @@
 "use client"
 import {useParams} from "next/navigation";
-import SideMenu from "@/app/components/SideMenu";
 import toast from "react-hot-toast";
 import useGetFetch from "@/app/hooks/useGetFetch";
 import Loader from "@/app/lib/Loader";
 import useUpdateData from "@/app/hooks/useUpdateData";
 import ProductEditForm from "@/app/components/products/ProductEditForm";
 
-const page =()=> {
+const page = () => {
   const {id} = useParams();
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`
   const {data, loading, error} = useGetFetch(apiUrl)
@@ -27,11 +26,9 @@ const page =()=> {
   }
 
   return (
-    <div className="flex">
-      <SideMenu/>
-      <div className="w-[80%] px-4 py-6">
-        <ProductEditForm product={data} onSave={handleSave}/>
-      </div>
+    <div className="px-4 py-6">
+
+      <ProductEditForm product={data} onSave={handleSave}/>
     </div>
   )
 }

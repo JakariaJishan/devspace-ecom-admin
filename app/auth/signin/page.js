@@ -3,8 +3,10 @@
 import {useState} from "react";
 import usePostData from "@/app/hooks/usePostData";
 import toast from "react-hot-toast";
+import {useRouter} from "next/navigation";
 
 const LoginPage = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {postData, isLoading, error} = usePostData()
@@ -18,8 +20,9 @@ const LoginPage = () => {
     postData(apiUrl, form)
       .then((response) => {
         toast.success(response.message || "Login successful");
-        console.log(response);
         localStorage.setItem("admin_user", JSON.stringify(response.data.user));
+        document.cookie = `token=${response.data.user.access_token}; path=/`;
+        router.push("/");
       })
       .catch((err) => {
         toast.error(err.message || "Login failed");
