@@ -1,26 +1,67 @@
 import { NextResponse } from "next/server";
 
+function parseRoles(rolesCookie) {
+  try {
+    // Parse the JSON string back into an array
+    return JSON.parse(decodeURIComponent(rolesCookie.value));
+  } catch (error) {
+    console.error('Error parsing roles:', error);
+    return [];
+  }
+}
+
 export function middleware(request) {
   const token = request.cookies.get("token");
-  console.log(token);
-  // If the user is already logged in, redirect them to the root path if trying to access sign-in or sign-up
+  const rolesCookie = request.cookies.get("roles");
+
+  // Authentication check for public routes
   if (token && (request.nextUrl.pathname === "/auth/signin" || request.nextUrl.pathname === "/auth/signup")) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // Otherwise, if the user is not logged in, redirect them to sign-in if they try to access protected routes
+  // Authentication check for protected routes
   if (!token && !["/auth/signin", "/auth/signup"].includes(request.nextUrl.pathname)) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/signin"; // Redirect to sign-in page
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(new URL("/auth/signin", request.url));
+  }
+
+  // Role-based access control
+  if (rolesCookie) {
+    const roles = parseRoles(rolesCookie);
+
+    // Define restricted routes for certain roles (like admin)
+    // {roles} should not be able to access
+    const restrictedRoutes = {
+      "/products/create": ["moderator"],
+    };
+
+    // Check if current path has restrictions for 'no access'
+    const currentPath = request.nextUrl.pathname;
+    if (restrictedRoutes[currentPath]) {
+      const restrictedRoles = restrictedRoutes[currentPath];
+      const hasRestrictedRole = roles.some(role => restrictedRoles.includes(role));
+
+      if (hasRestrictedRole) {
+        // If user has restricted role, redirect to a different page (e.g., /products/all)
+        return NextResponse.redirect(new URL("/", request.url));
+      }
+    }
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/", "/all_orders", "/categories/:path*", "/products/:path*" , "/admin/:path*", "/general/:path*", "/auth/signin", "/auth/signup", "/category/:path*",
-    "/subcategory/:path*", "/profile/:path*"], // Protect these paths
+  matcher: [
+    "/",
+    "/all_orders",
+    "/categories/:path*",
+    "/products/:path*",
+    "/admin/:path*",
+    "/general/:path*",
+    "/auth/signin",
+    "/auth/signup",
+    "/category/:path*",
+    "/subcategory/:path*",
+    "/profile/:path*"
+  ],
 };

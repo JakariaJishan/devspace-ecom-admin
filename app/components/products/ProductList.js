@@ -1,11 +1,13 @@
 "use client";
 
-import React from "react";
+import React, {useEffect} from "react";
 import toast from "react-hot-toast";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
+import {getCookie} from "@/app/utils/cookies";
 
 const ProductList = ({products}) => {
+  const roles = getCookie('roles');
   const router = useRouter()
   const handleEdit = (productId) => {
     router.push(`/products/${productId}/edit`)
@@ -26,13 +28,13 @@ const ProductList = ({products}) => {
     <div className="container mx-auto p-4 text-gray-500">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold mb-4">Product List</h1>
-        <Link
-          className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-          href="/products/create"
-        >
-          Add new product
-        </Link>
-      </div>
+          <Link
+              className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+              href="/products/create"
+          >
+            Add new product
+          </Link>
+    </div>
       <table className="min-w-full border-collapse border border-gray-300 mt-4">
         <thead>
         <tr className="bg-gray-100">

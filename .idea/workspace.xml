@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f5e5742-d903-4dda-a6af-5a088c183aac" name="Changes" comment="create all things related to category">
-      <change beforePath="$PROJECT_DIR$/app/components/categories/CategoryCreateForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/categories/CategoryCreateForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/categories/CategoryList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/categories/CategoryList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/products/ProductCreateForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/products/ProductCreateForm.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/utils/cookies.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/signin/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/signin/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/SidePanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/SidePanel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/products/ProductList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/products/ProductList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/login/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/login/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/middleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/middleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,6 +20,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
@@ -34,7 +42,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "product-category",
+    "git-widget-placeholder": "role",
     "last_opened_file_path": "/home/parameter/projects/devspace-ecom-admin/app/components",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -76,6 +84,7 @@
       <workItem from="1733833667618" duration="3403000" />
       <workItem from="1733837154982" duration="2264000" />
       <workItem from="1733895322809" duration="18307000" />
+      <workItem from="1734085596955" duration="10052000" />
     </task>
     <task id="LOCAL-00001" summary="create all things related to product">
       <option name="closed" value="true" />

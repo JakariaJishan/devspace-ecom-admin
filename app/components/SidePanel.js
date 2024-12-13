@@ -3,11 +3,13 @@ import "../globals.css";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import toast from "react-hot-toast";
+import {getCookie} from "@/app/utils/cookies";
 
 export default function SidePanel({ children }) {
   const pathname = usePathname();
   const router = useRouter();
   const adminUser = JSON.parse(localStorage.getItem("admin_user"));
+  const roles = getCookie('roles');
   // Define paths that should not use the layout
   const noLayoutPaths = ["/auth/signin"];
 
@@ -21,6 +23,7 @@ export default function SidePanel({ children }) {
   const handleLogOut = () => {
     localStorage.removeItem("admin_user");
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Strict; Secure";
+    document.cookie = "roles=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Strict; Secure";
     router.push("/auth/signin");
     toast.success("Login successful");
   }
@@ -193,29 +196,28 @@ export default function SidePanel({ children }) {
                       All products
                     </Link>
                   </li>
-
                   <li>
-                    <Link
-                      href="/products/create"
-                      className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                        isActive("/products/create")
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                      }`}
-                    >
-                      Create Product
-                    </Link>
-                  </li>
+                      <Link
+                          href="/products/create"
+                          className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                              isActive("/products/create")
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                          }`}
+                      >
+                        Create Product
+                      </Link>
+                    </li>
                 </ul>
               </details>
             </li>
             <li>
               <details className="group [&_summary::-webkit-details-marker]:hidden" open={isParentActive("/admin")}>
                 <summary
-                  className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
-                    isParentActive("/admin")
-                      ? "text-blue-500 bg-blue-100"
-                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
+                        isParentActive("/admin")
+                            ? "text-blue-500 bg-blue-100"
+                            : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                   }`}
                 >
                   <span className="text-sm font-medium"> Manage Admin </span>
@@ -237,27 +239,29 @@ export default function SidePanel({ children }) {
                 </summary>
 
                 <ul className="mt-2 space-y-1 px-4">
-                  <li>
-                    <Link
-                      href="/admin/create"
-                      className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                        isActive("/admin/create")
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                      }`}
-                    >
-                      Create admin user
-                    </Link>
-                  </li>
+                  {roles && roles.includes("super_admin") && (
+                      <li>
+                        <Link
+                            href="/admin/create"
+                            className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                                isActive("/admin/create")
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                            }`}
+                        >
+                          Create admin user
+                        </Link>
+                      </li>
+                  )}
 
                   <li>
                     <Link
-                      href="/admin/view"
-                      className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                        isActive("/admin/view")
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                      }`}
+                        href="/admin/view"
+                        className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                            isActive("/admin/view")
+                                ? "bg-blue-500 text-white"
+                                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                        }`}
                     >
                       View admin
                     </Link>
