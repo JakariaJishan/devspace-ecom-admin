@@ -1,12 +1,34 @@
 const ROLES = {
-  admin: [
-    "view:comments",
-    "create:comments",
-    "update:comments",
-    "delete:comments",
+  super_admin: [
+      "view:comments",
+      "create:comments",
+      "update:comments",
+      "delete:comments",
+
+      "view:products",
+      "create:products",
+      "update:products",
+      "delete:products",
   ],
-  moderator: ["view:comments", "create:comments", "delete:comments"],
-  user: ["view:comments", "create:comments"],
+
+  admin: [
+      "view:comments",
+      "create:comments",
+      "update:comments",
+      "delete:comments",
+
+      "view:products",
+      "create:products",
+      "update:products",
+  ],
+
+  moderator: [],
+
+  editor: [
+      "view:products",
+      "create:products",
+      "update:products",
+  ],
 };
 
 export default function hasPermission(user, permission) {
