@@ -9,6 +9,8 @@ const ROLES = {
       "create:products",
       "update:products",
       "delete:products",
+      "create:admin",
+      "create:category"
   ],
 
   admin: [

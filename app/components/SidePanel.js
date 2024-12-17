@@ -143,16 +143,18 @@ export default function SidePanel({ children }) {
                   </li>
 
                   <li>
-                    <Link
-                      href="/categories/create"
-                      className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                        isActive("/categories/create")
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                      }`}
-                    >
-                      Create Category
-                    </Link>
+                    {hasPermission({ roles: rolesFromCookie }, "create:category") && (
+                        <Link
+                            href="/categories/create"
+                            className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                                isActive("/categories/create")
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                            }`}
+                        >
+                          Create Category
+                        </Link>
+                    )}
                   </li>
                 </ul>
               </details>
@@ -244,16 +246,18 @@ export default function SidePanel({ children }) {
 
                 <ul className="mt-2 space-y-1 px-4">
                     <li>
-                      <Link
-                          href="/admin/create"
-                          className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                              isActive("/admin/create")
-                                  ? "bg-blue-500 text-white"
-                                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                          }`}
-                      >
-                        Create admin user
-                      </Link>
+                      {hasPermission({ roles: rolesFromCookie }, "create:admin") && (
+                          <Link
+                              href="/admin/create"
+                              className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                                  isActive("/admin/create")
+                                      ? "bg-blue-500 text-white"
+                                      : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                              }`}
+                          >
+                            Create admin user
+                          </Link>
+                      )}
                     </li>
 
                   <li>
