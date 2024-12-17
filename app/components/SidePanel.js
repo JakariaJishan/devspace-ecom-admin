@@ -4,14 +4,16 @@ import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import toast from "react-hot-toast";
 import {getCookie} from "@/app/utils/cookies";
+import hasPermission from "@/app/lib/roles";
+import React, {useEffect, useState} from "react";
 
 export default function SidePanel({ children }) {
   const pathname = usePathname();
   const router = useRouter();
   const adminUser = JSON.parse(localStorage.getItem("admin_user"));
-  const roles = getCookie('roles');
   // Define paths that should not use the layout
   const noLayoutPaths = ["/auth/signin"];
+  const rolesFromCookie =  JSON.parse(getCookie("roles"));
 
   // Check if the current path matches a no-layout path
   const isNoLayout = noLayoutPaths.includes(pathname);
@@ -197,17 +199,19 @@ export default function SidePanel({ children }) {
                     </Link>
                   </li>
                   <li>
-                      <Link
-                          href="/products/create"
-                          className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                              isActive("/products/create")
-                                  ? "bg-blue-500 text-white"
-                                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                          }`}
-                      >
-                        Create Product
-                      </Link>
-                    </li>
+                    {hasPermission({ roles: rolesFromCookie }, "create:products") && (
+                        <Link
+                            href="/products/create"
+                            className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                                isActive("/products/create")
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                            }`}
+                        >
+                          Create Product
+                        </Link>
+                    )}
+                  </li>
                 </ul>
               </details>
             </li>
@@ -239,20 +243,18 @@ export default function SidePanel({ children }) {
                 </summary>
 
                 <ul className="mt-2 space-y-1 px-4">
-                  {roles && roles.includes("super_admin") && (
-                      <li>
-                        <Link
-                            href="/admin/create"
-                            className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                                isActive("/admin/create")
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                            }`}
-                        >
-                          Create admin user
-                        </Link>
-                      </li>
-                  )}
+                    <li>
+                      <Link
+                          href="/admin/create"
+                          className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                              isActive("/admin/create")
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                          }`}
+                      >
+                        Create admin user
+                      </Link>
+                    </li>
 
                   <li>
                     <Link
