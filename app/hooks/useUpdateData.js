@@ -1,6 +1,7 @@
 "use client";
 
 import {useState} from "react";
+import { getCookie } from "@/app/utils/cookies";
 
 const useUpdateData = () => {
   const [loading, setLoading] = useState(false);
@@ -9,10 +10,16 @@ const useUpdateData = () => {
   const updateData = async (url, payload) => {
     setLoading(true);
     setError(null);
+    const token = getCookie("token");
+
 
     return fetch(url, {
       method: "PATCH",
-      body: payload,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
     })
       .then((response) => {
         if (!response.ok) {

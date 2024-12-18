@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import hasPermission from "@/app/lib/roles";
 import {getCookie} from "@/app/utils/cookies";
 
-const OrderTable = ({ orders }) => {
-  const rolesFromCookie =  JSON.parse(getCookie("roles"));
+const OrderTable = ({ orders, onUpdateStatus }) => {
+  const rolesFromCookie = JSON.parse(getCookie("roles"));
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [newStatus, setNewStatus] = useState("");
   // Function to determine status color
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
@@ -21,6 +23,12 @@ const OrderTable = ({ orders }) => {
       default:
         return "bg-gray-200 text-black";
     }
+  };
+
+  const handleUpdate = (orderId) => {
+    onUpdateStatus(orderId, newStatus);
+    setSelectedOrder(null);
+    setNewStatus("");
   };
 
   const getPaymentStatusColor = (status) => {
@@ -75,14 +83,50 @@ const OrderTable = ({ orders }) => {
               </span>
           </td>
           <td className="border border-gray-300 px-4 py-2">
-            {hasPermission({ roles: rolesFromCookie }, "view:order") && (
-                <Link href={`/all_orders/${order.id}`} className="px-2 py-1 rounded text-sm bg-blue-100 mr-2">View</Link>
+            {hasPermission({roles: rolesFromCookie}, "view:order") && (
+                <Link
+                    href={`/all_orders/${order.id}`}
+                    className="px-2 py-1 rounded text-sm bg-blue-100 mr-2"
+                >
+                  View
+                </Link>
             )}
-            {hasPermission({ roles: rolesFromCookie }, "update:order") && (
-                <Link href={`#`} className="px-2 py-1 rounded text-sm bg-blue-100 mr-2">Update Status</Link>
+            {hasPermission({roles: rolesFromCookie}, "update:order") && (
+                <>
+                  <button
+                      onClick={() => setSelectedOrder(order.id)}
+                      className="px-2 py-1 rounded text-sm bg-green-100 mr-2"
+                  >
+                    Update Status
+                  </button>
+                  {selectedOrder === order.id && (
+                      <div className="mt-2">
+                        <select
+                            className="border border-gray-300 rounded px-2 py-1"
+                            value={newStatus}
+                            onChange={(e) => setNewStatus(e.target.value)}
+                        >
+                          <option value="">Select Status</option>
+                          <option value="pending">Pending</option>
+                          <option value="processing">Processing</option>
+                          <option value="shipped">Shipped</option>
+                          <option value="delivered">Delivered</option>
+                          <option value="cancelled">Cancelled</option>
+                        </select>
+                        <button
+                            onClick={() => handleUpdate(order.id)}
+                            className="ml-2 px-2 py-1 rounded bg-blue-100"
+                        >
+                          Confirm
+                        </button>
+                      </div>
+                  )}
+                </>
             )}
-            {hasPermission({ roles: rolesFromCookie }, "delete:order") && (
-                <button className="px-2 py-1 rounded text-sm bg-red-100">Delete</button>
+            {hasPermission({roles: rolesFromCookie}, "delete:order") && (
+                <button className="px-2 py-1 rounded text-sm bg-red-100">
+                  Delete
+                </button>
             )}
           </td>
 

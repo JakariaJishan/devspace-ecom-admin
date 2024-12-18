@@ -20,9 +20,9 @@ const LoginPage = () => {
     postData(apiUrl, form)
       .then((response) => {
         toast.success(response.message || "Login successful");
-        localStorage.setItem("admin_user", JSON.stringify(response.data.user));
-        document.cookie = `token=${response.data.user.access_token}; path=/`;
-        document.cookie = `roles=${JSON.stringify(response.data.user.roles)}; path=/; SameSite=Strict`;
+        localStorage.setItem("admin_user", JSON.stringify(response.data));
+        document.cookie = `token=${response.token}; path=/`;
+        document.cookie = `roles=${JSON.stringify(response.data.roles)}; path=/; SameSite=Strict`;
         router.push("/");
       })
       .catch((err) => {
