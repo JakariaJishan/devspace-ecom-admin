@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { getCookie } from "@/app/utils/cookies";
 import hasPermission from "@/app/lib/roles";
 import useGetFetch from "@/app/hooks/useGetFetch";
+import useDeleteData from "@/app/hooks/useDeleteData";
 import Link from "next/link";
 
 const AdminList = () => {
@@ -14,6 +15,7 @@ const AdminList = () => {
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/admin_users`; // Define the API URL
     const { data: adminUsers, loading, error } = useGetFetch(apiUrl);
     const [admins, setAdminUsers] = React.useState(adminUsers || []);
+    const { deleteData, loading: deleting, error: deleteError } = useDeleteData();
 
     React.useEffect(() => {
         if (adminUsers) {
@@ -25,18 +27,8 @@ const AdminList = () => {
         const confirmed = confirm("Are you sure you want to delete this admin user?");
         if (!confirmed) return;
 
-        const token = getCookie("token");
         try {
-            const response = await fetch(`${apiUrl}/${id}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to delete admin user");
-            }
+            await deleteData(`${apiUrl}/${id}`); // Use deleteData hook
 
             // Update the state to remove the deleted admin user
             setAdminUsers((prevAdminUsers) => prevAdminUsers.filter((admin) => admin.id !== id));
@@ -100,19 +92,20 @@ const AdminList = () => {
                         <td className="border border-gray-300 p-2">
                             <div className="flex gap-2">
                                 {hasPermission({ roles: rolesFromCookie }, "update:admin") && (
-                                    <button
-                                        onClick={() => router.push(`/admin_users/edit/${admin.id}`)}
+                                    <Link
+                                        href={`/admin/edit/${admin.id}`}
                                         className="flex items-center gap-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
                                     >
                                         Edit
-                                    </button>
+                                    </Link>
                                 )}
                                 {hasPermission({ roles: rolesFromCookie }, "delete:admin") && (
                                     <button
                                         onClick={() => handleDelete(admin.id)}
                                         className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                                        disabled={deleting} // Disable button while deleting
                                     >
-                                        Delete
+                                        {deleting ? "Deleting..." : "Delete"}
                                     </button>
                                 )}
                             </div>

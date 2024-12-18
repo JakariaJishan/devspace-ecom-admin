@@ -4,10 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f5e5742-d903-4dda-a6af-5a088c183aac" name="Changes" comment="added admin view only and order delete">
+    <list default="true" id="3f5e5742-d903-4dda-a6af-5a088c183aac" name="Changes" comment="added admin delete and corrected log out toast message.">
+      <change afterPath="$PROJECT_DIR$/app/admin/edit/[id]/page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/admin/edit/page.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/admin/AdminEditForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/admin/AdminList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/AdminList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/hooks/useGetFetch.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useGetFetch.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useUpdateData.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useUpdateData.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +85,8 @@
       <workItem from="1733895322809" duration="18307000" />
       <workItem from="1734085596955" duration="10301000" />
       <workItem from="1734501925567" duration="10317000" />
-      <workItem from="1734516547689" duration="6239000" />
+      <workItem from="1734516547689" duration="12156000" />
+      <workItem from="1734529938673" duration="951000" />
     </task>
     <task id="LOCAL-00001" summary="create all things related to product">
       <option name="closed" value="true" />
@@ -131,7 +136,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734521658356</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="added admin delete and corrected log out toast message.">
+      <option name="closed" value="true" />
+      <created>1734523907429</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1734523907429</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +168,7 @@
     <MESSAGE value="added role based button hide for order. category, products, admin manage." />
     <MESSAGE value="added order update status for admin" />
     <MESSAGE value="added admin view only and order delete" />
-    <option name="LAST_COMMIT_MESSAGE" value="added admin view only and order delete" />
+    <MESSAGE value="added admin delete and corrected log out toast message." />
+    <option name="LAST_COMMIT_MESSAGE" value="added admin delete and corrected log out toast message." />
   </component>
 </project>

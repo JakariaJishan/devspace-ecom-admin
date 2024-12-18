@@ -24,14 +24,14 @@ const useUpdateData = () => {
       .then((response) => {
         if (!response.ok) {
           return response.json().then((errorData) => {
-            throw new Error(errorData.message || "Failed to post data");
+            throw new Error(errorData.message || "Failed to update data");
           });
         }
         return response.json();
       })
       .catch((err) => {
         setError(err.message);
-        throw err; // Re-throw the error to allow the component to handle it
+        throw err;
       })
       .finally(() => {
         setLoading(false);
