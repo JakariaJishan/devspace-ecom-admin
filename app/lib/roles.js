@@ -12,6 +12,8 @@ const ROLES = {
 
       "create:admin",
       "view:admin",
+      "update:admin",
+      "delete:admin",
 
       "create:category",
       "update:category",

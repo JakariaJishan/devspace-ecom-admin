@@ -3,7 +3,7 @@ import Link from "next/link";
 import hasPermission from "@/app/lib/roles";
 import {getCookie} from "@/app/utils/cookies";
 
-const OrderTable = ({ orders, onUpdateStatus }) => {
+const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
   const rolesFromCookie = JSON.parse(getCookie("roles"));
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [newStatus, setNewStatus] = useState("");
@@ -124,7 +124,10 @@ const OrderTable = ({ orders, onUpdateStatus }) => {
                 </>
             )}
             {hasPermission({roles: rolesFromCookie}, "delete:order") && (
-                <button className="px-2 py-1 rounded text-sm bg-red-100">
+                <button
+                    onClick={() => onDeleteOrder(order.id)}
+                    className="px-2 py-1 rounded text-sm bg-red-100 hover:bg-red-200"
+                >
                   Delete
                 </button>
             )}

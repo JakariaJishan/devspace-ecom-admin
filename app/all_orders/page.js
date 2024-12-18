@@ -6,15 +6,18 @@ import useGetFetch from "@/app/hooks/useGetFetch";
 import Loader from "@/app/lib/Loader";
 import ExportButton from "@/app/components/orders/ExportButton";
 import useUpdateData from "@/app/hooks/useUpdateData";
+import useDeleteData from "@/app/hooks/useDeleteData";
 import toast from "react-hot-toast";
 
 const page = () => {
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/admin/orders`;
   const orderReportUrl = `${process.env.NEXT_PUBLIC_API_URL}/admin/reports/order-report`;
   const orderUpdateUrl = `${process.env.NEXT_PUBLIC_API_URL}/orders/admin_update_order`;
+  const orderDeleteUrl = `${process.env.NEXT_PUBLIC_API_URL}/orders/admin_delete_order`;
 
   const { data: initialData, loading, error } = useGetFetch(apiUrl);
   const { updateData, loading: updating, error: updateError } = useUpdateData();
+  const { deleteData, loading: deleting, error: deleteError } = useDeleteData();
   const [orders, setOrders] = useState([]);
 
   // Update orders state when initialData is loaded
@@ -23,6 +26,24 @@ const page = () => {
       setOrders(initialData);
     }
   }, [initialData]);
+
+  const handleDeleteOrder = async (orderId) => {
+    if (!confirm("Are you sure you want to delete this order?")) {
+      return;
+    }
+
+    try {
+      // Send DELETE request with order_id in the body
+      await deleteData(orderDeleteUrl, { order_id: orderId }); // Pass order_id in the body
+
+      // Remove the deleted order from the state
+      setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+
+      toast.success("Order deleted successfully!");
+    } catch (err) {
+      toast.error(err.message || "Failed to delete order");
+    }
+  };
 
   const handleUpdateStatus = async (orderId, newStatus) => {
     try {
@@ -48,7 +69,7 @@ const page = () => {
       <>
         <div className="px-4 py-6">
           <ExportButton url={orderReportUrl} title="order-report" />
-          <OrderTable orders={orders} onUpdateStatus={handleUpdateStatus} />
+          <OrderTable orders={orders} onUpdateStatus={handleUpdateStatus} onDeleteOrder={handleDeleteOrder} />
         </div>
       </>
   );
