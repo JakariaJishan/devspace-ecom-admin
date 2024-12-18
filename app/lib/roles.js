@@ -9,8 +9,18 @@ const ROLES = {
       "create:products",
       "update:products",
       "delete:products",
+
       "create:admin",
-      "create:category"
+      "view:admin",
+
+      "create:category",
+      "update:category",
+      "view:category",
+      "delete:category",
+
+      "view:order",
+      "update:order",
+      "delete:order",
   ],
 
   admin: [
@@ -22,6 +32,14 @@ const ROLES = {
       "view:products",
       "create:products",
       "update:products",
+
+      "view:admin",
+
+      "create:category",
+      "update:category",
+      "view:category",
+
+      "view:order",
   ],
 
   moderator: [],
@@ -30,6 +48,14 @@ const ROLES = {
       "view:products",
       "create:products",
       "update:products",
+
+      "view:admin",
+
+      "create:category",
+      "update:category",
+      "view:category",
+
+      "view:order",
   ],
 };
 

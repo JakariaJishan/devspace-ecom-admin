@@ -5,7 +5,6 @@ import {usePathname, useRouter} from "next/navigation";
 import toast from "react-hot-toast";
 import {getCookie} from "@/app/utils/cookies";
 import hasPermission from "@/app/lib/roles";
-import React, {useEffect, useState} from "react";
 
 export default function SidePanel({ children }) {
   const pathname = usePathname();
@@ -130,16 +129,18 @@ export default function SidePanel({ children }) {
 
                 <ul className="mt-2 space-y-1 px-4">
                   <li>
-                    <Link
-                      href="/categories/all"
-                      className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                        isActive("/categories/all")
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                      }`}
-                    >
-                      All categories
-                    </Link>
+                    {hasPermission({ roles: rolesFromCookie }, "view:category") && (
+                        <Link
+                            href="/categories/all"
+                            className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                                isActive("/categories/all")
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                            }`}
+                        >
+                          All categories
+                        </Link>
+                    )}
                   </li>
 
                   <li>
@@ -189,16 +190,18 @@ export default function SidePanel({ children }) {
 
                 <ul className="mt-2 space-y-1 px-4">
                   <li>
-                    <Link
-                      href="/products/all"
-                      className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                        isActive("/products/all")
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                      }`}
-                    >
-                      All products
-                    </Link>
+                    {hasPermission({ roles: rolesFromCookie }, "view:products") && (
+                        <Link
+                            href="/products/all"
+                            className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                                isActive("/products/all")
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                            }`}
+                        >
+                          All products
+                        </Link>
+                    )}
                   </li>
                   <li>
                     {hasPermission({ roles: rolesFromCookie }, "create:products") && (
@@ -261,16 +264,18 @@ export default function SidePanel({ children }) {
                     </li>
 
                   <li>
-                    <Link
-                        href="/admin/view"
-                        className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                            isActive("/admin/view")
-                                ? "bg-blue-500 text-white"
-                                : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                        }`}
-                    >
-                      View admin
-                    </Link>
+                    {hasPermission({ roles: rolesFromCookie }, "view:admin") && (
+                        <Link
+                            href="/admin/view"
+                            className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                                isActive("/admin/view")
+                                    ? "bg-blue-500 text-white"
+                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                            }`}
+                        >
+                          View admin
+                        </Link>
+                    )}
                   </li>
                 </ul>
               </details>

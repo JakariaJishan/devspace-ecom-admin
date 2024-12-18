@@ -1,7 +1,10 @@
 import React from "react";
 import Link from "next/link";
+import hasPermission from "@/app/lib/roles";
+import {getCookie} from "@/app/utils/cookies";
 
 const OrderTable = ({ orders }) => {
+  const rolesFromCookie =  JSON.parse(getCookie("roles"));
   // Function to determine status color
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
@@ -72,9 +75,15 @@ const OrderTable = ({ orders }) => {
               </span>
           </td>
           <td className="border border-gray-300 px-4 py-2">
-            <Link href={`/all_orders/${order.id}`} className="px-2 py-1 rounded text-sm bg-blue-100 mr-2">View</Link>
-            <Link href={`#`} className="px-2 py-1 rounded text-sm bg-blue-100 mr-2">Update Status</Link>
-            <button className="px-2 py-1 rounded text-sm bg-red-100">Delete</button>
+            {hasPermission({ roles: rolesFromCookie }, "view:order") && (
+                <Link href={`/all_orders/${order.id}`} className="px-2 py-1 rounded text-sm bg-blue-100 mr-2">View</Link>
+            )}
+            {hasPermission({ roles: rolesFromCookie }, "update:order") && (
+                <Link href={`#`} className="px-2 py-1 rounded text-sm bg-blue-100 mr-2">Update Status</Link>
+            )}
+            {hasPermission({ roles: rolesFromCookie }, "delete:order") && (
+                <button className="px-2 py-1 rounded text-sm bg-red-100">Delete</button>
+            )}
           </td>
 
         </tr>

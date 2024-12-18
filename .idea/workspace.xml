@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f5e5742-d903-4dda-a6af-5a088c183aac" name="Changes" comment="added simple role for moderator." />
+    <list default="true" id="3f5e5742-d903-4dda-a6af-5a088c183aac" name="Changes" comment="added simple role for moderator.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/SidePanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/SidePanel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/categories/CategoryList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/categories/CategoryList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/orders/OrderTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/orders/OrderTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/roles.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/roles.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,21 +35,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "role",
-    "last_opened_file_path": "/home/parameter/projects/devspace-ecom-admin/app/components",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "/snap/webstorm/420/plugins/javascript-plugin/jsLanguageServicesImpl/external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;role&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/parameter/projects/devspace-ecom-admin/app/components&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/snap/webstorm/420/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/components" />
@@ -76,6 +82,7 @@
       <workItem from="1733837154982" duration="2264000" />
       <workItem from="1733895322809" duration="18307000" />
       <workItem from="1734085596955" duration="10301000" />
+      <workItem from="1734501925567" duration="3320000" />
     </task>
     <task id="LOCAL-00001" summary="create all things related to product">
       <option name="closed" value="true" />
@@ -106,6 +113,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="create all things related to product" />
