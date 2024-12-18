@@ -2,6 +2,7 @@
 import { useState } from "react";
 import usePostData from "@/app/hooks/usePostData";
 import toast from "react-hot-toast";
+import {getCookie} from "@/app/utils/cookies";
 
 const CreateAdminForm = () => {
 
@@ -49,6 +50,14 @@ const CreateAdminForm = () => {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     const form = new FormData();
     form.append("admin_user[email]", formData.email);
     form.append("admin_user[name]", formData.name);
@@ -59,17 +68,25 @@ const CreateAdminForm = () => {
     form.append("admin_user[bio]", formData.bio);
     form.append("admin_user[roles][]", formData.roles);
     form.append("admin_user[password]", formData.password);
-    form.append("admin_user[avatar]", file);
+    if (file) {
+      form.append("admin_user[avatar]", file);
+    }
     form.append("confirm_password", formData.confirm_password);
 
-    e.preventDefault();
-    postData(apiUrl, form)
-      .then((response) => {
-        toast.success(response.message);
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      });  };
+    const token = getCookie("token");
+
+    postData(apiUrl, form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+        .then((response) => {
+          toast.success(response.message || "Admin created successfully!");
+        })
+        .catch((err) => {
+          toast.error(err.message || "Failed to create admin.");
+        });
+  };
 
   return (
     <form
