@@ -6,8 +6,19 @@ import {useRouter} from "next/navigation";
 import Link from "next/link";
 import {getCookie} from "@/app/utils/cookies";
 import hasPermission from "@/app/lib/roles";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
-const CategoryList = ({categories}) => {
+const CategoryList = ({categories, updateCategories}) => {
   const router = useRouter()
   const rolesFromCookie =  JSON.parse(getCookie("roles"));
   const handleEdit = (categoryId) => {
@@ -20,6 +31,9 @@ const CategoryList = ({categories}) => {
       method: "DELETE",
     }).then(res => res.json()).then(data => {
       toast.success(data.message)
+      updateCategories((prevCategories) =>
+          prevCategories.filter((category) => category.id !== categoryId)
+      );
     }).catch((res) => {
       toast.error(res.message)
     })
@@ -78,14 +92,34 @@ const CategoryList = ({categories}) => {
                       Edit
                     </button>
                 )}
-                {hasPermission({roles: rolesFromCookie}, "delete:category") && (
-                    <button
-                        onClick={() => handleDelete(category.id)}
-                        className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    >
-                      Delete
-                    </button>
+                {hasPermission({ roles: rolesFromCookie }, "delete:category") && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <button
+                            className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                        >
+                          Delete
+                        </button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete the category.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                              onClick={() => handleDelete(category.id)}
+                          >
+                            Confirm
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                 )}
+
               </div>
             </td>
           </tr>
