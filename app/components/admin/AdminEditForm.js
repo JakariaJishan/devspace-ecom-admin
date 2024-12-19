@@ -19,8 +19,6 @@ const AdminEditForm = () => {
         email: "",
         name: "",
         mobile_no: "",
-        address: "",
-        location: "",
         gender: "",
         bio: "",
         roles: "",
@@ -37,8 +35,6 @@ const AdminEditForm = () => {
                 email: adminData.email,
                 name: adminData.name,
                 mobile_no: adminData.mobile_no,
-                address: adminData.address,
-                location: adminData.location,
                 gender: adminData.gender,
                 bio: adminData.bio,
                 roles: adminData.roles[0], // Assuming single role for simplicity
@@ -82,8 +78,6 @@ const AdminEditForm = () => {
                 email: formData.email,
                 name: formData.name,
                 mobile_no: formData.mobile_no,
-                address: formData.address,
-                location: formData.location,
                 gender: formData.gender,
                 bio: formData.bio,
                 roles: [formData.roles], // Ensure roles is an array
@@ -176,30 +170,6 @@ const AdminEditForm = () => {
                     disabled
                 />
                 {errors.mobile_no && <span className="text-red-500 text-sm">{errors.mobile_no}</span>}
-            </div>
-
-            <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">Address:</label>
-                <input
-                    type="text"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded cursor-not-allowed"
-                    disabled
-                />
-            </div>
-
-            <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">Location:</label>
-                <input
-                    type="text"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded cursor-not-allowed"
-                    disabled
-                />
             </div>
 
             <div className="mb-4">
