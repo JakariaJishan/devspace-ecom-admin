@@ -13,11 +13,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
   const rolesFromCookie = JSON.parse(getCookie("roles"));
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [newStatus, setNewStatus] = useState("");
   // Function to determine status color
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
@@ -66,6 +74,7 @@ const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
           <th className="border border-gray-300 px-2 py-1 text-sm">Total Price</th>
           <th className="border border-gray-300 px-2 py-1 text-sm">Status</th>
           <th className="border border-gray-300 px-2 py-1 text-sm">Payment Status</th>
+          <th className="border border-gray-300 px-2 py-1 text-sm">Change Status</th>
           <th className="border border-gray-300 px-2 py-1 text-sm">Action</th>
         </tr>
         </thead>
@@ -93,6 +102,49 @@ const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
             {order.payment_status}
           </span>
               </td>
+              <td className="border border-gray-300 px-2 py-1 text-center align-middle">
+                {hasPermission({roles: rolesFromCookie}, "update:order") && (
+                    <div className="flex items-center justify-center mt-2">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <button
+                              className="w-32 px-2 py-2 flex items-center justify-between border border-gray-300 rounded-md bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          >
+                            {order.status.charAt(0).toUpperCase() + order.status.slice(1)} {/* Current status */}
+                            {/* Dropdown Arrow Icon */}
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-4 h-4 ml-2"
+                            >
+                              <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                              />
+                            </svg>
+                          </button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56">
+                          <DropdownMenuSeparator/>
+                          <DropdownMenuRadioGroup
+                              value={order.status} // Set the current value
+                              onValueChange={(newValue) => onUpdateStatus(order.id, newValue)} // Update on selection
+                          >
+                            <DropdownMenuRadioItem value="pending">Pending</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="processing">Processing</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="shipped">Shipped</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="delivered">Delivered</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="cancelled">Cancelled</DropdownMenuRadioItem>
+                          </DropdownMenuRadioGroup>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                )}
+              </td>
               <td className="border border-gray-300 px-2 py-1">
                 {hasPermission({roles: rolesFromCookie}, "view:order") && (
                     <Link
@@ -102,39 +154,7 @@ const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
                       View
                     </Link>
                 )}
-                {hasPermission({roles: rolesFromCookie}, "update:order") && (
-                    <>
-                      <button
-                          onClick={() => setSelectedOrder(order.id)}
-                          className="px-2 py-1 rounded text-sm bg-green-100 mr-2"
-                      >
-                        Update Status
-                      </button>
-                      {selectedOrder === order.id && (
-                          <div className="mt-2">
-                            <select
-                                className="border border-gray-300 rounded px-2 py-1"
-                                value={newStatus}
-                                onChange={(e) => setNewStatus(e.target.value)}
-                            >
-                              <option value="">Select Status</option>
-                              <option value="pending">Pending</option>
-                              <option value="processing">Processing</option>
-                              <option value="shipped">Shipped</option>
-                              <option value="delivered">Delivered</option>
-                              <option value="cancelled">Cancelled</option>
-                            </select>
-                            <button
-                                onClick={() => handleUpdate(order.id)}
-                                className="ml-2 px-2 py-1 rounded bg-blue-100"
-                            >
-                              Confirm
-                            </button>
-                          </div>
-                      )}
-                    </>
-                )}
-                {hasPermission({ roles: rolesFromCookie }, "delete:order") && (
+                {hasPermission({roles: rolesFromCookie}, "delete:order") && (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <button
