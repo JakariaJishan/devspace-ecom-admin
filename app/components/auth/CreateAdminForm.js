@@ -3,12 +3,14 @@ import { useState } from "react";
 import usePostData from "@/app/hooks/usePostData";
 import toast from "react-hot-toast";
 import {getCookie} from "@/app/utils/cookies";
+import { useRouter } from "next/navigation";
 
 const CreateAdminForm = () => {
 
   const {postData} = usePostData()
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/admin_users`
   const [file, setFile] = useState("")
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -78,6 +80,7 @@ const CreateAdminForm = () => {
     })
         .then((response) => {
           toast.success(response.message || "Admin created successfully!");
+          router.push("/admin/view")
         })
         .catch((err) => {
           toast.error(err.message || "Failed to create admin.");

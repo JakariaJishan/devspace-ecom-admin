@@ -2,6 +2,17 @@ import React, { useState } from "react";
 import Link from "next/link";
 import hasPermission from "@/app/lib/roles";
 import {getCookie} from "@/app/utils/cookies";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
   const rolesFromCookie = JSON.parse(getCookie("roles"));
@@ -123,13 +134,32 @@ const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
                       )}
                     </>
                 )}
-                {hasPermission({roles: rolesFromCookie}, "delete:order") && (
-                    <button
-                        onClick={() => onDeleteOrder(order.id)}
-                        className="px-2 py-1 rounded text-sm bg-red-100 hover:bg-red-200"
-                    >
-                      Delete
-                    </button>
+                {hasPermission({ roles: rolesFromCookie }, "delete:order") && (
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <button
+                            className="px-2 py-1 rounded text-sm bg-red-100 hover:bg-red-200"
+                        >
+                          Delete
+                        </button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. It will permanently delete the order.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                              onClick={() => onDeleteOrder(order.id)}
+                          >
+                            Confirm
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                 )}
               </td>
             </tr>

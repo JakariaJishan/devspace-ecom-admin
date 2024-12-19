@@ -8,6 +8,17 @@ import hasPermission from "@/app/lib/roles";
 import useGetFetch from "@/app/hooks/useGetFetch";
 import useDeleteData from "@/app/hooks/useDeleteData";
 import Link from "next/link";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 const AdminList = () => {
     const router = useRouter();
@@ -24,9 +35,6 @@ const AdminList = () => {
     }, [adminUsers]);
 
     const handleDelete = async (id) => {
-        const confirmed = confirm("Are you sure you want to delete this admin user?");
-        if (!confirmed) return;
-
         try {
             await deleteData(`${apiUrl}/${id}`); // Use deleteData hook
 
@@ -100,13 +108,32 @@ const AdminList = () => {
                                     </Link>
                                 )}
                                 {hasPermission({ roles: rolesFromCookie }, "delete:admin") && (
-                                    <button
-                                        onClick={() => handleDelete(admin.id)}
-                                        className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                                        disabled={deleting} // Disable button while deleting
-                                    >
-                                        {deleting ? "Deleting..." : "Delete"}
-                                    </button>
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <button
+                                                className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                                                disabled={deleting} // Disable button while deleting
+                                            >
+                                                Delete
+                                            </button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    This action cannot be undone. It will permanently delete the admin.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                <AlertDialogAction
+                                                    onClick={() => handleDelete(admin.id)}
+                                                >
+                                                    Confirm
+                                                </AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
                                 )}
                             </div>
                         </td>

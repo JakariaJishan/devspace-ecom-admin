@@ -4,21 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1e042d47-4dfe-41e6-925c-099470cae921" name="Changes" comment="added toggle btn and add icon btn">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/admin/edit/[id]/page.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/admin/edit/page.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/components/admin/AdminEditForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/all_orders/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/all_orders/page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/SidePanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/SidePanel.js" afterDir="false" />
+    <list default="true" id="1e042d47-4dfe-41e6-925c-099470cae921" name="Changes" comment="wip">
+      <change afterPath="$PROJECT_DIR$/components.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/alert-dialog.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/ui/button.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/categories/all/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/categories/all/page.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/admin/AdminList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/AdminList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/auth/CreateAdminForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/auth/CreateAdminForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/categories/CategoryList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/categories/CategoryList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/orders/OrderTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/orders/OrderTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/products/ProductList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/products/ProductList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/hooks/useGetFetch.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useGetFetch.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/hooks/useUpdateData.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useUpdateData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/Loader.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/Loader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/products/all/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/products/all/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.mjs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,18 +30,30 @@
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "git-widget-placeholder": "Merging admin/product",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "ts.external.directory.path": "/snap/webstorm/420/plugins/javascript-plugin/jsLanguageServicesImpl/external"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;git-widget-placeholder&quot;: &quot;Merging admin/product&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/snap/webstorm/420/plugins/javascript-plugin/jsLanguageServicesImpl/external&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added toggle btn and add icon btn" />
-    <option name="LAST_COMMIT_MESSAGE" value="added toggle btn and add icon btn" />
+    <MESSAGE value="wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip" />
   </component>
 </project>
