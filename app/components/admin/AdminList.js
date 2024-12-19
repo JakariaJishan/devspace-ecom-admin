@@ -19,6 +19,15 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 
 const AdminList = () => {
     const router = useRouter();
@@ -56,10 +65,10 @@ const AdminList = () => {
     }
 
     return (
-        <div className="container mx-auto p-4 text-gray-500">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold mb-4">Admin Users</h1>
-                {hasPermission({ roles: rolesFromCookie }, "create:admin") && (
+        <div className="container mx-auto p-4 bg-white shadow-lg rounded-md">
+            <div className="flex items-center justify-between mb-4">
+                <h1 className="text-2xl font-bold">Admin Users</h1>
+                {hasPermission({roles: rolesFromCookie}, "create:admin") && (
                     <Link
                         className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                         href="/admin/create"
@@ -68,79 +77,78 @@ const AdminList = () => {
                     </Link>
                 )}
             </div>
-            <table className="min-w-full border-collapse border border-gray-300 mt-4">
-                <thead>
-                <tr className="bg-gray-100">
-                    <th className="border border-gray-300 p-2">Name</th>
-                    <th className="border border-gray-300 p-2">Email</th>
-                    <th className="border border-gray-300 p-2">Roles</th>
-                    <th className="border border-gray-300 p-2">Avatar</th>
-                    <th className="border border-gray-300 p-2">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                {admins?.map((admin) => (
-                    <tr key={admin.id} className="hover:bg-gray-50">
-                        <td className="border border-gray-300 p-2">{admin.name}</td>
-                        <td className="border border-gray-300 p-2">{admin.email}</td>
-                        <td className="border border-gray-300 p-2">{admin.roles.join(", ")}</td>
-                        <td className="border border-gray-300 p-2">
-                            {admin.avatar_url ? (
-                                <img
-                                    src={admin.avatar_url}
-                                    alt={`${admin.name}'s avatar`}
-                                    className="w-16 h-16 object-cover rounded"
-                                />
-                            ) : (
-                                <div className="flex justify-center items-center rounded h-16 w-16">
-                                    <span className="text-sm text-gray-600">No Avatar</span>
-                                </div>
-                            )}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                            <div className="flex gap-2">
-                                {hasPermission({ roles: rolesFromCookie }, "update:admin") && (
-                                    <Link
-                                        href={`/admin/edit/${admin.id}`}
-                                        className="flex items-center gap-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
-                                    >
-                                        Edit
-                                    </Link>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="font-bold">Name</TableHead>
+                        <TableHead className="font-bold">Email</TableHead>
+                        <TableHead className="font-bold">Roles</TableHead>
+                        <TableHead className="font-bold">Avatar</TableHead>
+                        <TableHead className="font-bold">Actions</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {admins?.map((admin) => (
+                        <TableRow key={admin.id}>
+                            <TableCell>{admin.name}</TableCell>
+                            <TableCell>{admin.email}</TableCell>
+                            <TableCell>{admin.roles.join(", ")}</TableCell>
+                            <TableCell>
+                                {admin.avatar_url ? (
+                                    <img
+                                        src={admin.avatar_url}
+                                        alt={`${admin.name}'s avatar`}
+                                        className="w-16 h-16 object-cover rounded"
+                                    />
+                                ) : (
+                                    <div className="flex justify-center items-center rounded h-16 w-16">
+                                        <span className="text-sm text-gray-600">No Avatar</span>
+                                    </div>
                                 )}
-                                {hasPermission({ roles: rolesFromCookie }, "delete:admin") && (
-                                    <AlertDialog>
-                                        <AlertDialogTrigger asChild>
-                                            <button
-                                                className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                                                disabled={deleting} // Disable button while deleting
-                                            >
-                                                Delete
-                                            </button>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    This action cannot be undone. It will permanently delete the admin.
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction
-                                                    onClick={() => handleDelete(admin.id)}
+                            </TableCell>
+                            <TableCell>
+                                <div className="flex items-center gap-2">
+                                    {hasPermission({roles: rolesFromCookie}, "update:admin") && (
+                                        <Link
+                                            href={`/admin/edit/${admin.id}`}
+                                            className="flex items-center gap-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                                        >
+                                            Edit
+                                        </Link>
+                                    )}
+                                    {hasPermission({roles: rolesFromCookie}, "delete:admin") && (
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <button
+                                                    className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                                                    disabled={deleting} // Disable button while deleting
                                                 >
-                                                    Confirm
-                                                </AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
-                                )}
-                            </div>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+                                                    Delete
+                                                </button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        This action cannot be undone. It will permanently delete the
+                                                        admin.
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                    <AlertDialogAction onClick={() => handleDelete(admin.id)}>
+                                                        Confirm
+                                                    </AlertDialogAction>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    )}
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     );
 };

@@ -41,7 +41,7 @@ const CreateAdminForm = () => {
     const newErrors = {};
     if (!formData.email.includes("@")) newErrors.email = "Invalid email address.";
     if (!formData.name) newErrors.name = "Name is required.";
-    if (formData.mobile_no && !/^\d{10}$/.test(formData.mobile_no))
+    if (formData.mobile_no && !/^\d{11}$/.test(formData.mobile_no))
       newErrors.mobile_no = "Invalid mobile number.";
     if (!formData.password) newErrors.password = "Password is required.";
     else if (formData.password.length < 8)

@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f5e5742-d903-4dda-a6af-5a088c183aac" name="Changes" comment="added shadcn alert dialog">
+    <list default="true" id="3f5e5742-d903-4dda-a6af-5a088c183aac" name="Changes" comment="added order status dropdown">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/all_orders/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/all_orders/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/admin/view/page.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/admin/view/page.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/admin/AdminList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/AdminList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/auth/CreateAdminForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/auth/CreateAdminForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/categories/CategoryList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/categories/CategoryList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/orders/OrderTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/orders/OrderTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/products/ProductList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/products/ProductList.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734605900764</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="added order status dropdown">
+      <option name="closed" value="true" />
+      <created>1734609966080</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1734609966080</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,6 +223,7 @@
     <MESSAGE value="removed address and location input, adjusted padding, removed confirm alert, state update product list," />
     <MESSAGE value="removed address and location input from admin edit" />
     <MESSAGE value="added shadcn alert dialog" />
-    <option name="LAST_COMMIT_MESSAGE" value="added shadcn alert dialog" />
+    <MESSAGE value="added order status dropdown" />
+    <option name="LAST_COMMIT_MESSAGE" value="added order status dropdown" />
   </component>
 </project>
