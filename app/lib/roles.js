@@ -62,5 +62,6 @@ const ROLES = {
 };
 
 export default function hasPermission(user, permission) {
-  return user.roles.some((role) => ROLES[role]?.includes(permission));
+    console.log(user)
+  return user.roles?.some((role) => ROLES[role]?.includes(permission));
 }
