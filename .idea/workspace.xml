@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f5e5742-d903-4dda-a6af-5a088c183aac" name="Changes" comment="added admin role update">
+    <list default="true" id="3f5e5742-d903-4dda-a6af-5a088c183aac" name="Changes" comment="removed address and location input from admin edit">
+      <change afterPath="$PROJECT_DIR$/app/components/icons/EditIcon.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/icons/EyeIcon.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/components/icons/TrashIcon.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/admin/AdminList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/admin/AdminList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/auth/CreateAdminForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/auth/CreateAdminForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/categories/CategoryList.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/categories/CategoryList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/orders/OrderTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/orders/OrderTable.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +87,8 @@
       <workItem from="1734085596955" duration="10301000" />
       <workItem from="1734501925567" duration="10317000" />
       <workItem from="1734516547689" duration="12156000" />
-      <workItem from="1734529938673" duration="1765000" />
+      <workItem from="1734529938673" duration="2127000" />
+      <workItem from="1734588217073" duration="10103000" />
     </task>
     <task id="LOCAL-00001" summary="create all things related to product">
       <option name="closed" value="true" />
@@ -147,7 +154,31 @@
       <option name="project" value="LOCAL" />
       <updated>1734531334461</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="added admin create">
+      <option name="closed" value="true" />
+      <created>1734531737982</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1734531737982</updated>
+    </task>
+    <task id="LOCAL-00010" summary="removed address and location input, adjusted padding, removed confirm alert, state update product list,">
+      <option name="closed" value="true" />
+      <created>1734593542750</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1734593542750</updated>
+    </task>
+    <task id="LOCAL-00011" summary="removed address and location input from admin edit">
+      <option name="closed" value="true" />
+      <created>1734593683030</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1734593683030</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,6 +204,9 @@
     <MESSAGE value="added admin view only and order delete" />
     <MESSAGE value="added admin delete and corrected log out toast message." />
     <MESSAGE value="added admin role update" />
-    <option name="LAST_COMMIT_MESSAGE" value="added admin role update" />
+    <MESSAGE value="added admin create" />
+    <MESSAGE value="removed address and location input, adjusted padding, removed confirm alert, state update product list," />
+    <MESSAGE value="removed address and location input from admin edit" />
+    <option name="LAST_COMMIT_MESSAGE" value="removed address and location input from admin edit" />
   </component>
 </project>
