@@ -28,9 +28,6 @@ const page = () => {
   }, [initialData]);
 
   const handleDeleteOrder = async (orderId) => {
-    if (!confirm("Are you sure you want to delete this order?")) {
-      return;
-    }
 
     try {
       // Send DELETE request with order_id in the body

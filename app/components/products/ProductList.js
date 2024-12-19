@@ -7,9 +7,9 @@ import Link from "next/link";
 import {getCookie} from "@/app/utils/cookies";
 import hasPermission from "@/app/lib/roles";
 
-const ProductList = ({products}) => {
+const ProductList = ({ products, updateProducts }) => {
   const [userRoles, setUserRoles] = useState([]);
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     // Fetch roles from cookies and parse them
@@ -25,18 +25,25 @@ const ProductList = ({products}) => {
   }, []);
 
   const handleEdit = (productId) => {
-    router.push(`/products/${productId}/edit`)
+    router.push(`/products/${productId}/edit`);
   };
 
   const handleDelete = (productId) => {
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`;
     fetch(apiUrl, {
       method: "DELETE",
-    }).then(res => res.json()).then(data => {
-      toast.success(data.message)
-    }).catch((res) => {
-      toast.error(res.message)
     })
+        .then((res) => res.json())
+        .then((data) => {
+          toast.success(data.message);
+          // Notify parent component about the state change
+          updateProducts((prevProducts) =>
+              prevProducts.filter((product) => product.id !== productId)
+          );
+        })
+        .catch((res) => {
+          toast.error(res.message);
+        });
   };
 
   return (
@@ -58,7 +65,7 @@ const ProductList = ({products}) => {
         <tr className="bg-gray-100">
           <th className="border border-gray-300 p-2">Image</th>
           <th className="border border-gray-300 p-2">Title</th>
-          <th className="border border-gray-300 p-2">Description</th>
+          <th className="border border-gray-300 px-2 py-1 text-sm w-56">Description</th>
           <th className="border border-gray-300 p-2">Added By</th>
           <th className="border border-gray-300 p-2">Price</th>
           <th className="border border-gray-300 p-2">Stock</th>
@@ -68,7 +75,7 @@ const ProductList = ({products}) => {
         </thead>
         <tbody>
         {products?.map((product) => (
-          <tr key={product.id} className="hover:bg-gray-50">
+            <tr key={product.id} className="hover:bg-gray-50">
             <td className="border border-gray-300 p-2">
               <div className="flex gap-2 flex-wrap">
                 {product.image_urls && product.image_urls.length > 0 ? product.image_urls.map((url, index) => (
