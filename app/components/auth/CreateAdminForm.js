@@ -2,6 +2,7 @@
 import { useState } from "react";
 import usePostData from "@/app/hooks/usePostData";
 import toast from "react-hot-toast";
+import {getCookie} from "@/app/utils/cookies";
 
 const CreateAdminForm = () => {
 
@@ -13,8 +14,6 @@ const CreateAdminForm = () => {
     email: "",
     name: "",
     mobile_no: "",
-    address: "",
-    location: "",
     gender: "",
     bio: "",
     roles: "",
@@ -49,27 +48,41 @@ const CreateAdminForm = () => {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     const form = new FormData();
     form.append("admin_user[email]", formData.email);
     form.append("admin_user[name]", formData.name);
     form.append("admin_user[mobile_no]", formData.mobile_no);
-    form.append("admin_user[address]", formData.address);
-    form.append("admin_user[location]", formData.location);
     form.append("admin_user[gender]", formData.gender);
     form.append("admin_user[bio]", formData.bio);
     form.append("admin_user[roles][]", formData.roles);
     form.append("admin_user[password]", formData.password);
-    form.append("admin_user[avatar]", file);
+    if (file) {
+      form.append("admin_user[avatar]", file);
+    }
     form.append("confirm_password", formData.confirm_password);
 
-    e.preventDefault();
-    postData(apiUrl, form)
-      .then((response) => {
-        toast.success(response.message);
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      });  };
+    const token = getCookie("token");
+
+    postData(apiUrl, form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+        .then((response) => {
+          toast.success(response.message || "Admin created successfully!");
+        })
+        .catch((err) => {
+          toast.error(err.message || "Failed to create admin.");
+        });
+  };
 
   return (
     <form
@@ -122,28 +135,6 @@ const CreateAdminForm = () => {
           className="w-full p-2 border border-gray-300 rounded"
         />
         {errors.mobile_no && <span className="text-red-500 text-sm">{errors.mobile_no}</span>}
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Address:</label>
-        <input
-          type="text"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
-        />
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Location:</label>
-        <input
-          type="text"
-          name="location"
-          value={formData.location}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
-        />
       </div>
 
       <div className="mb-4">

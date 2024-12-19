@@ -1,62 +1,38 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { getCookie } from "@/app/utils/cookies";
 import hasPermission from "@/app/lib/roles";
+import useGetFetch from "@/app/hooks/useGetFetch";
+import useDeleteData from "@/app/hooks/useDeleteData";
 import Link from "next/link";
 
 const AdminList = () => {
     const router = useRouter();
     const rolesFromCookie = JSON.parse(getCookie("roles"));
-    const token = getCookie("token"); // Retrieve token from the cookie
-    const [adminUsers, setAdminUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/admin_users`; // Define the API URL
+    const { data: adminUsers, loading, error } = useGetFetch(apiUrl);
+    const [admins, setAdminUsers] = React.useState(adminUsers || []);
+    const { deleteData, loading: deleting, error: deleteError } = useDeleteData();
 
-    useEffect(() => {
-        // Fetch admin users
-        const fetchAdminUsers = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin_users`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error("Failed to fetch admin users");
-                }
-
-                const data = await response.json();
-                setAdminUsers(data.data); // Use the correct response structure
-                setLoading(false);
-            } catch (error) {
-                toast.error(error.message || "Failed to fetch admin users");
-                setLoading(false);
-            }
-        };
-
-        fetchAdminUsers();
-    }, [token]);
+    React.useEffect(() => {
+        if (adminUsers) {
+            setAdminUsers(adminUsers);
+        }
+    }, [adminUsers]);
 
     const handleDelete = async (id) => {
         const confirmed = confirm("Are you sure you want to delete this admin user?");
         if (!confirmed) return;
 
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/admin_users/${id}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            await deleteData(`${apiUrl}/${id}`); // Use deleteData hook
 
-            if (!response.ok) {
-                throw new Error("Failed to delete admin user");
-            }
+            // Update the state to remove the deleted admin user
+            setAdminUsers((prevAdminUsers) => prevAdminUsers.filter((admin) => admin.id !== id));
 
-            setAdminUsers((prev) => prev.filter((admin) => admin.id !== id)); // Remove admin from state
             toast.success("Admin user deleted successfully!");
         } catch (error) {
             toast.error(error.message || "Failed to delete admin user");
@@ -65,6 +41,10 @@ const AdminList = () => {
 
     if (loading) {
         return <div className="text-center p-4">Loading admin users...</div>;
+    }
+
+    if (error) {
+        return <div className="text-center p-4 text-red-500">Error: {error}</div>;
     }
 
     return (
@@ -91,7 +71,7 @@ const AdminList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {adminUsers?.map((admin) => (
+                {admins?.map((admin) => (
                     <tr key={admin.id} className="hover:bg-gray-50">
                         <td className="border border-gray-300 p-2">{admin.name}</td>
                         <td className="border border-gray-300 p-2">{admin.email}</td>
@@ -111,20 +91,21 @@ const AdminList = () => {
                         </td>
                         <td className="border border-gray-300 p-2">
                             <div className="flex gap-2">
-                                {hasPermission({roles: rolesFromCookie}, "update:admin") && (
-                                    <button
-                                        onClick={() => router.push(`/admin_users/edit/${admin.id}`)}
+                                {hasPermission({ roles: rolesFromCookie }, "update:admin") && (
+                                    <Link
+                                        href={`/admin/edit/${admin.id}`}
                                         className="flex items-center gap-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
                                     >
                                         Edit
-                                    </button>
+                                    </Link>
                                 )}
-                                {hasPermission({roles: rolesFromCookie}, "delete:admin") && (
+                                {hasPermission({ roles: rolesFromCookie }, "delete:admin") && (
                                     <button
                                         onClick={() => handleDelete(admin.id)}
                                         className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                                        disabled={deleting} // Disable button while deleting
                                     >
-                                        Delete
+                                        {deleting ? "Deleting..." : "Delete"}
                                     </button>
                                 )}
                             </div>

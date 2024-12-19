@@ -9,9 +9,9 @@ import hasPermission from "@/app/lib/roles";
 import useUpdateData from "@/app/hooks/useUpdateData";
 import ToggleSwitch from "@/app/components/products/ToggleSwitch";
 
-const ProductList = ({products}) => {
+const ProductList = ({ products, updateProducts }) => {
   const [userRoles, setUserRoles] = useState([]);
-  const router = useRouter()
+  const router = useRouter();
 
   const {updateData} = useUpdateData()
 
@@ -29,18 +29,25 @@ const ProductList = ({products}) => {
   }, []);
 
   const handleEdit = (productId) => {
-    router.push(`/products/${productId}/edit`)
+    router.push(`/products/${productId}/edit`);
   };
 
   const handleDelete = (productId) => {
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`;
     fetch(apiUrl, {
       method: "DELETE",
-    }).then(res => res.json()).then(data => {
-      toast.success(data.message)
-    }).catch((res) => {
-      toast.error(res.message)
     })
+        .then((res) => res.json())
+        .then((data) => {
+          toast.success(data.message);
+          // Notify parent component about the state change
+          updateProducts((prevProducts) =>
+              prevProducts.filter((product) => product.id !== productId)
+          );
+        })
+        .catch((res) => {
+          toast.error(res.message);
+        });
   };
 
   const handleUpdate = (productId, status) => {
@@ -79,9 +86,10 @@ const ProductList = ({products}) => {
       <table className="min-w-full border-collapse border border-gray-300 mt-4">
         <thead>
         <tr className="bg-gray-100">
+          <th className="border border-gray-300 p-2">ID</th>
           <th className="border border-gray-300 p-2">Image</th>
           <th className="border border-gray-300 p-2">Title</th>
-          <th className="border border-gray-300 p-2">Description</th>
+          <th className="border border-gray-300 px-2 py-1 text-sm w-56">Description</th>
           <th className="border border-gray-300 p-2">Added By</th>
           <th className="border border-gray-300 p-2">Price</th>
           <th className="border border-gray-300 p-2">Stock</th>
@@ -110,6 +118,7 @@ const ProductList = ({products}) => {
           } = product
           return (
             <tr key={id} className="hover:bg-gray-50">
+              <td className="border border-gray-300 p-2">#{id}</td>
               <td className="border border-gray-300 p-2">
                 <div className="flex gap-2 flex-wrap">
                   {image_urls && image_urls.length > 0 ? image_urls.map((url, index) => (
@@ -143,14 +152,14 @@ const ProductList = ({products}) => {
               <td className="border border-gray-300 p-2">
                 {
                   colors?.map((color, index) => (
-                    <span key={index}>{color} </span>
+                    <span key={index}>{color.name} </span>
                   ))
                 }
               </td>
               <td className="border border-gray-300 p-2">
                 {
                   sizes?.map((size, index) => (
-                    <span key={index}>{size} </span>
+                    <span key={index}>{size.name} </span>
                   ))
                 }
               </td>

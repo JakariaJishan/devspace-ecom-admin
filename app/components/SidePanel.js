@@ -26,7 +26,7 @@ export default function SidePanel({ children }) {
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Strict; Secure";
     document.cookie = "roles=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Strict; Secure";
     router.push("/auth/signin");
-    toast.success("Login successful");
+    toast.success("Logout successful");
   }
   const isActive = (href) => pathname === href;
   const isParentActive = (prefix) => pathname.startsWith(prefix);
