@@ -65,8 +65,6 @@ const CreateAdminForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log(formData.mobile_no);
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);

@@ -39,17 +39,17 @@ const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case "pending":
-        return "bg-yellow-200 text-black";
+        return "bg-yellow-500 text-white";
       case "delivered":
-        return "bg-blue-200 text-black";
+        return "bg-green-500 text-white";
       case "processed":
-        return "bg-green-200 text-black";
+        return "bg-blue-500 text-white";
       case "shipped":
-        return "bg-purple-200 text-black";
+        return "bg-indigo-500 text-white";
       case "cancelled":
-        return "bg-red-200 text-black";
+        return "bg-red-500 text-white";
       default:
-        return "bg-gray-200 text-black";
+        return "bg-gray-500 text-white";
     }
   };
 
@@ -67,7 +67,7 @@ const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
   };
 
   return (
-      <div className="p-4 bg-white shadow-lg rounded-md">
+      <div className="p-4 bg-white">
         <Table>
           <TableHeader>
             <TableRow>
@@ -91,22 +91,22 @@ const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
                   <TableCell>{order.order_items.length}</TableCell>
                   <TableCell>{order.total_price}</TableCell>
                   <TableCell>
-            <span
-                className={`px-2 py-1 rounded text-sm ${getStatusColor(
-                    order.status
-                )}`}
-            >
-              {order.status}
-            </span>
+                    <span
+                        className={`inline-block rounded text-sm text-center ${getStatusColor(
+                            order.status
+                        )} w-20`}
+                    >
+                      {order.status}
+                    </span>
                   </TableCell>
                   <TableCell>
-            <span
-                className={`px-2 py-1 rounded text-sm ${getPaymentStatusColor(
-                    order.payment_status
-                )}`}
-            >
-              {order.payment_status}
-            </span>
+                    <span
+                        className={`px-2 py-1 rounded text-sm ${getPaymentStatusColor(
+                            order.payment_status
+                        )}`}
+                    >
+                      {order.payment_status}
+                    </span>
                   </TableCell>
                   <TableCell className="text-center">
                     {hasPermission({roles: rolesFromCookie}, "update:order") && (

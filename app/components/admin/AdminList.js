@@ -65,7 +65,7 @@ const AdminList = () => {
     }
 
     return (
-        <div className="container mx-auto p-4 bg-white shadow-lg rounded-md">
+        <div className="container mx-auto p-4 bg-white">
             <div className="flex items-center justify-between mb-4">
                 <h1 className="text-2xl font-bold">Admin Users</h1>
                 {hasPermission({roles: rolesFromCookie}, "create:admin") && (
