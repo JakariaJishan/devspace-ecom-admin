@@ -31,6 +31,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import EyeIcon from "@/app/components/icons/EyeIcon";
+import TrashIcon from "@/app/components/icons/TrashIcon";
 
 
 const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
@@ -101,7 +103,7 @@ const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
                   </TableCell>
                   <TableCell>
                     <span
-                        className={`px-2 py-1 rounded text-sm ${getPaymentStatusColor(
+                        className={`px-1 py-1 rounded text-xs ${getPaymentStatusColor(
                             order.payment_status
                         )}`}
                     >
@@ -162,34 +164,35 @@ const OrderTable = ({ orders, onUpdateStatus, onDeleteOrder }) => {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      {hasPermission({roles: rolesFromCookie}, "view:order") && (
+                      {hasPermission({ roles: rolesFromCookie }, "view:order") && (
                           <Link
                               href={`/all_orders/${order.id}`}
-                              className="px-2 py-1 rounded text-sm bg-blue-100"
+                              className="p-2 rounded text-blue-600 hover:bg-blue-100"
+                              title="View Order"
                           >
-                            View
+                            <EyeIcon size={16} />
                           </Link>
                       )}
-                      {hasPermission({roles: rolesFromCookie}, "delete:order") && (
+                      {hasPermission({ roles: rolesFromCookie }, "delete:order") && (
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <button className="px-2 py-1 rounded text-sm bg-red-100 hover:bg-red-200">
-                                Delete
+                              <button
+                                  className="p-2 rounded text-red-600 hover:bg-red-100"
+                                  title="Delete Order"
+                              >
+                                <TrashIcon size={16} />
                               </button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  This action cannot be undone. It will permanently delete
-                                  the order.
+                                  This action cannot be undone. It will permanently delete the order.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                    onClick={() => onDeleteOrder(order.id)}
-                                >
+                                <AlertDialogAction onClick={() => onDeleteOrder(order.id)}>
                                   Confirm
                                 </AlertDialogAction>
                               </AlertDialogFooter>

@@ -26,6 +26,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import EditIcon from "@/app/components/icons/EditIcon";
+import TrashIcon from "@/app/components/icons/TrashIcon";
 
 const CategoryList = ({categories, updateCategories}) => {
   const router = useRouter()
@@ -92,35 +94,35 @@ const CategoryList = ({categories, updateCategories}) => {
                   <TableCell>{category.admin_user.name}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      {hasPermission({roles: rolesFromCookie}, "update:category") && (
+                      {hasPermission({ roles: rolesFromCookie }, "update:category") && (
                           <button
                               onClick={() => handleEdit(category.id)}
-                              className="flex items-center gap-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                              className="p-2 rounded text-blue-600 hover:bg-blue-100"
+                              title="Edit Category"
                           >
-                            Edit
+                            <EditIcon size={16} />
                           </button>
                       )}
-                      {hasPermission({roles: rolesFromCookie}, "delete:category") && (
+                      {hasPermission({ roles: rolesFromCookie }, "delete:category") && (
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <button
-                                  className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
-                                Delete
+                                  className="p-2 rounded text-red-600 hover:bg-red-100"
+                                  title="Delete Category"
+                              >
+                                <TrashIcon size={16} />
                               </button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  This action cannot be undone. This will permanently delete
-                                  the category.
+                                  This action cannot be undone. This will permanently delete the category.
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction
-                                    onClick={() => handleDelete(category.id)}
-                                >
+                                <AlertDialogAction onClick={() => handleDelete(category.id)}>
                                   Confirm
                                 </AlertDialogAction>
                               </AlertDialogFooter>
@@ -129,6 +131,7 @@ const CategoryList = ({categories, updateCategories}) => {
                       )}
                     </div>
                   </TableCell>
+
                 </TableRow>
             ))}
           </TableBody>

@@ -26,6 +26,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import EditIcon from "@/app/components/icons/EditIcon";
+import TrashIcon from "@/app/components/icons/TrashIcon";
 
 const ProductList = ({ products, updateProducts }) => {
   const [userRoles, setUserRoles] = useState([]);
@@ -126,17 +128,20 @@ const ProductList = ({ products, updateProducts }) => {
                       {hasPermission({roles: userRoles}, "update:products") && (
                           <button
                               onClick={() => handleEdit(product.id)}
-                              className="flex items-center gap-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+                              className="p-2 rounded text-blue-600 hover:bg-blue-100"
+                              title="Edit Product"
                           >
-                            Edit
+                            <EditIcon size={16} />
                           </button>
                       )}
                       {hasPermission({roles: userRoles}, "delete:products") && (
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <button
-                                  className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
-                                Delete
+                                  className="p-2 rounded text-red-600 hover:bg-red-100"
+                                  title="Delete Product"
+                              >
+                                <TrashIcon size={16}/>
                               </button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
