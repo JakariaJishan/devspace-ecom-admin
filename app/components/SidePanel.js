@@ -190,31 +190,45 @@ export default function SidePanel({ children }) {
 
                 <ul className="mt-2 space-y-1 px-4">
                   <li>
-                    {hasPermission({ roles: rolesFromCookie }, "view:products") && (
-                        <Link
-                            href="/products/all"
-                            className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                                isActive("/products/all")
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                            }`}
-                        >
-                          All products
-                        </Link>
+                    {hasPermission({roles: rolesFromCookie}, "view:products") && (
+                      <Link
+                        href="/products/all"
+                        className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                          isActive("/products/all")
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                        }`}
+                      >
+                        All products
+                      </Link>
                     )}
                   </li>
                   <li>
-                    {hasPermission({ roles: rolesFromCookie }, "create:products") && (
-                        <Link
-                            href="/products/create"
-                            className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                                isActive("/products/create")
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
-                            }`}
-                        >
-                          Create Product
-                        </Link>
+                    {hasPermission({roles: rolesFromCookie}, "create:products") && (
+                      <Link
+                        href="/products/create"
+                        className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                          isActive("/products/create")
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                        }`}
+                      >
+                        Create Product
+                      </Link>
+                    )}
+                  </li>
+                  <li>
+                    {hasPermission({roles: rolesFromCookie}, "create:colors") && (
+                      <Link
+                        href="/products/colors"
+                        className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                          isActive("/products/colors")
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                        }`}
+                      >
+                        Colors
+                      </Link>
                     )}
                   </li>
                 </ul>
@@ -223,10 +237,10 @@ export default function SidePanel({ children }) {
             <li>
               <details className="group [&_summary::-webkit-details-marker]:hidden" open={isParentActive("/admin")}>
                 <summary
-                    className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
-                        isParentActive("/admin")
-                            ? "text-blue-500 bg-blue-100"
-                            : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                  className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
+                    isParentActive("/admin")
+                      ? "text-blue-500 bg-blue-100"
+                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                   }`}
                 >
                   <span className="text-sm font-medium"> Manage Admin </span>

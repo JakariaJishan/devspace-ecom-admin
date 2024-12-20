@@ -9,7 +9,7 @@ const LoginPage = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {postData, isLoading, error} = usePostData()
+  const {postData, loading, error} = usePostData()
   const handleLogin = async (e) => {
     e.preventDefault();
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/auth/admin-login`

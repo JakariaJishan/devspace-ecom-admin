@@ -3,11 +3,11 @@
 import {useState} from "react";
 
 const usePostData = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const postData = async (url, payload) => {
-    setIsLoading(true);
+    setLoading(true);
     setError(null);
 
     return fetch(url, {
@@ -27,12 +27,12 @@ const usePostData = () => {
         throw err; // Re-throw the error to allow the component to handle it
       })
       .finally(() => {
-        setIsLoading(false);
+        setLoading(false);
       });
 
   };
 
-  return { postData, isLoading, error };
+  return { postData, loading, error };
 };
 
 export default usePostData;

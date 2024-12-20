@@ -23,6 +23,9 @@ const ROLES = {
       "view:order",
       "update:order",
       "delete:order",
+
+      "create:colors",
+      "update:colors",
   ],
 
   admin: [
@@ -62,6 +65,5 @@ const ROLES = {
 };
 
 export default function hasPermission(user, permission) {
-    console.log(user)
   return user.roles?.some((role) => ROLES[role]?.includes(permission));
 }
