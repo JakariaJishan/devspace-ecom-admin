@@ -61,21 +61,42 @@ const ProductCreateForm = ({ onCreate, categories }) => {
           <label htmlFor="category" className="block text-sm font-medium">
             Category
           </label>
-            <select
-              id="category"
-              name="category_id"
-              value={formData.category_id}
-              onChange={handleInputChange}
-              className="mt-1 p-2 border rounded w-full"
-              required
-            >
-              <option value="">Select a category</option>
-              {categories?.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.title}
-                </option>
-              ))}
-            </select>
+          <select
+            id="category"
+            name="category_id"
+            value={formData.category_id}
+            onChange={handleInputChange}
+            className="mt-1 p-2 border rounded w-full"
+            required
+          >
+            <option value="">Select a category</option>
+            {categories?.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.title}
+              </option>
+            ))}
+          </select>
+
+        </div>
+        <div>
+          <label htmlFor="category" className="block text-sm font-medium">
+            Colors
+          </label>
+          <select
+            id="category"
+            name="category_id"
+            value={formData.category_id}
+            onChange={handleInputChange}
+            className="mt-1 p-2 border rounded w-full"
+            required
+          >
+            <option value="">Select a Color</option>
+            {categories?.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.title}
+              </option>
+            ))}
+          </select>
 
         </div>
         <div>
