@@ -208,7 +208,6 @@ const AdminEditForm = () => {
                     className="w-full p-2 border border-gray-300 rounded"
                 >
                     <option value="">Select Role</option>
-                    <option value="super_admin">super_admin</option>
                     <option value="admin">admin</option>
                     <option value="editor">editor</option>
                     <option value="moderator">moderator</option>

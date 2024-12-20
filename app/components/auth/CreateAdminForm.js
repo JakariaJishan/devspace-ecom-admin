@@ -4,6 +4,9 @@ import usePostData from "@/app/hooks/usePostData";
 import toast from "react-hot-toast";
 import {getCookie} from "@/app/utils/cookies";
 import { useRouter } from "next/navigation";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
 const CreateAdminForm = () => {
 
@@ -41,8 +44,19 @@ const CreateAdminForm = () => {
     const newErrors = {};
     if (!formData.email.includes("@")) newErrors.email = "Invalid email address.";
     if (!formData.name) newErrors.name = "Name is required.";
-    if (formData.mobile_no && !/^\d{10}$/.test(formData.mobile_no))
+
+    // Mobile number validation
+    let normalizedNumber = formData.mobile_no.trim(); // Trim whitespace
+    if (!normalizedNumber.startsWith("+")) {
+      normalizedNumber = `+${normalizedNumber}`; // Add '+' if not present
+    }
+
+    const phoneNumber = parsePhoneNumberFromString(normalizedNumber);
+
+    if (!phoneNumber || !phoneNumber.isValid()) {
       newErrors.mobile_no = "Invalid mobile number.";
+    }
+
     if (!formData.password) newErrors.password = "Password is required.";
     else if (formData.password.length < 8)
       newErrors.password = "Password must be at least 8 characters.";
@@ -51,7 +65,6 @@ const CreateAdminForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const newErrors = validateForm();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -130,23 +143,28 @@ const CreateAdminForm = () => {
 
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Mobile No:</label>
-        <input
-          type="text"
-          name="mobile_no"
-          value={formData.mobile_no}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
+        <PhoneInput
+            country={'bd'}
+            value={formData.mobile_no}
+            onChange={(value) =>
+                setFormData((prevFormData) => ({...prevFormData, mobile_no: value}))
+            }
+            inputClass="w-full p-2 border border-gray-300 rounded" // Apply styling to the input field
+            containerStyle={{width: '100%'}} // Adjust container width
+            enableSearch={true} // Enable search for country codes
         />
-        {errors.mobile_no && <span className="text-red-500 text-sm">{errors.mobile_no}</span>}
+        {errors.mobile_no && (
+            <span className="text-red-500 text-sm">{errors.mobile_no}</span>
+        )}
       </div>
 
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Gender:</label>
         <select
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
+            name="gender"
+            value={formData.gender}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
         >
           <option value="">Select</option>
           <option value="Male">Male</option>

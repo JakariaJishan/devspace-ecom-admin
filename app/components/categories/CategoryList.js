@@ -17,6 +17,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import EditIcon from "@/app/components/icons/EditIcon";
+import TrashIcon from "@/app/components/icons/TrashIcon";
 
 const CategoryList = ({categories, updateCategories}) => {
   const router = useRouter()
@@ -40,93 +51,92 @@ const CategoryList = ({categories, updateCategories}) => {
   };
 
   return (
-    <div className="container mx-auto p-4 text-gray-500">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold mb-4">Category List</h1>
-        {hasPermission({ roles: rolesFromCookie }, "create:category") && (
-            <Link
-                className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-                href="/categories/create"
-            >
-              Add new category
-            </Link>
-        )}
-      </div>
-      <table className="min-w-full border-collapse border border-gray-300 mt-4">
-        <thead>
-        <tr className="bg-gray-100">
-          <th className="border border-gray-300 p-2">Image</th>
-          <th className="border border-gray-300 p-2">Title</th>
-          <th className="border border-gray-300 p-2">Added By</th>
-          <th className="border border-gray-300 p-2">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {categories?.map((category) => (
-          <tr key={category.id} className="hover:bg-gray-50">
-            <td className="border border-gray-300 p-2">
-              <div className="flex gap-2 flex-wrap">
-                {category.image_url ?
-                  <img
-                    key={category.id}
-                    src={category.image_url}
-                    alt={`${category.title}`}
-                    className="w-16 h-16 object-cover rounded"
-                  />
-                  : <div className="  flex justify-center items-center rounded">
-                    <span className="text-sm text-gray-600">No Images</span>
-                  </div>}
-              </div>
-            </td>
-            <td className="border border-gray-300 p-2">{category.title}</td>
-            <td className="border border-gray-300 p-2">
-              {category.admin_user.name}
-            </td>
-            <td className="border border-gray-300 p-2">
-              <div className="flex gap-2">
-                {hasPermission({ roles: rolesFromCookie }, "update:category") && (
-                    <button
-                        onClick={() => handleEdit(category.id)}
-                        className="flex items-center gap-2 bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
-                    >
-                      Edit
-                    </button>
-                )}
-                {hasPermission({ roles: rolesFromCookie }, "delete:category") && (
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <button
-                            className="flex items-center gap-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                        >
-                          Delete
-                        </button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete the category.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                              onClick={() => handleDelete(category.id)}
+      <div className="container mx-auto p-4 bg-white">
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl font-bold">Category List</h1>
+          {hasPermission({roles: rolesFromCookie}, "create:category") && (
+              <Link
+                  className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                  href="/categories/create"
+              >
+                Add new category
+              </Link>
+          )}
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="font-bold">Image</TableHead>
+              <TableHead className="font-bold">Title</TableHead>
+              <TableHead className="font-bold">Added By</TableHead>
+              <TableHead className="font-bold">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {categories?.map((category) => (
+                <TableRow key={category.id}>
+                  <TableCell>
+                    <div className="flex gap-2 flex-wrap">
+                      {category.image_url ? (
+                          <img
+                              src={category.image_url}
+                              alt={category.title}
+                              className="w-16 h-16 object-cover rounded"
+                          />
+                      ) : (
+                          <div className="flex justify-center items-center rounded">
+                            <span className="text-sm text-gray-600">No Images</span>
+                          </div>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>{category.title}</TableCell>
+                  <TableCell>{category.admin_user.name}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2">
+                      {hasPermission({ roles: rolesFromCookie }, "update:category") && (
+                          <button
+                              onClick={() => handleEdit(category.id)}
+                              className="p-2 rounded text-blue-600 hover:bg-blue-100"
+                              title="Edit Category"
                           >
-                            Confirm
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                )}
+                            <EditIcon size={16} />
+                          </button>
+                      )}
+                      {hasPermission({ roles: rolesFromCookie }, "delete:category") && (
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <button
+                                  className="p-2 rounded text-red-600 hover:bg-red-100"
+                                  title="Delete Category"
+                              >
+                                <TrashIcon size={16} />
+                              </button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will permanently delete the category.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleDelete(category.id)}>
+                                  Confirm
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                      )}
+                    </div>
+                  </TableCell>
 
-              </div>
-            </td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
-    </div>
+                </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
   );
 };
 

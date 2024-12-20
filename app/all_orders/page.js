@@ -43,18 +43,21 @@ const page = () => {
   };
 
   const handleUpdateStatus = async (orderId, newStatus) => {
+    console.log("Payload being sent:", { order_id: orderId, order_status: newStatus });
     try {
       const payload = { order_id: orderId, order_status: newStatus };
       const response = await updateData(orderUpdateUrl, payload);
 
-      const updatedOrders = orders.map((order) =>
-          order.id === orderId ? { ...order, status: newStatus } : order
+      // Update the order status in the local state
+      setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+              order.id === orderId ? { ...order, status: newStatus } : order
+          )
       );
-      setOrders(updatedOrders);
 
-      toast.success(response.message || "Order updated successfully!");
-    } catch (err) {
-      toast.error(err.message || "Failed to update order status");
+      toast.success(response.message || "Order status updated successfully!");
+    } catch (error) {
+      toast.error(error.message || "Failed to update order status");
     }
   };
 
