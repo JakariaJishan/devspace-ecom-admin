@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 
-const ProductCreateForm = ({ onCreate, categories }) => {
+const ProductCreateForm = ({ onCreate, categories, colors }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -12,6 +12,7 @@ const ProductCreateForm = ({ onCreate, categories }) => {
     images: [], // This will store the uploaded image files
     category_id: "",
     admin_user_id: JSON.parse(localStorage.getItem("admin_user")).id,
+    color_ids: [],
   });
 
   // Handle input changes
@@ -46,6 +47,9 @@ const ProductCreateForm = ({ onCreate, categories }) => {
     form.append("product[category_id]", formData.category_id);
     form.append("product[admin_user_id]", formData.admin_user_id);
 
+    formData.color_ids.forEach((id) => {
+      form.append("product[color_ids][]", id);
+    });
     // Append each image file to FormData
     formData.images.forEach((image, index) => {
       form.append("product[images][]", image); // Note: 'images[]' is the key name
@@ -79,44 +83,44 @@ const ProductCreateForm = ({ onCreate, categories }) => {
 
         </div>
         <div>
-          <label htmlFor="category" className="block text-sm font-medium">
+          <label htmlFor="color" className="block text-sm font-medium">
             Colors
           </label>
           <select
-            id="category"
-            name="category_id"
-            value={formData.category_id}
-            onChange={handleInputChange}
-            className="mt-1 p-2 border rounded w-full"
-            required
+              id="color"
+              name="color_id"
+              value={formData.color_id}
+              onChange={handleInputChange}
+              className="mt-1 p-2 border rounded w-full"
+              required
           >
             <option value="">Select a Color</option>
-            {categories?.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.title}
-              </option>
+            {colors?.map((color) => (
+                <option key={color.id} value={color.id}>
+                  {color.name}
+                </option>
             ))}
           </select>
-
         </div>
+
         <div>
           <label htmlFor="title" className="block text-sm font-medium">
             Title
           </label>
           <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleInputChange}
-            className="mt-1 p-2 border rounded w-full"
-            required
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleInputChange}
+              className="mt-1 p-2 border rounded w-full"
+              required
           />
         </div>
 
         <div>
           <label htmlFor="description" className="block text-sm font-medium">
-            Description
+          Description
           </label>
           <textarea
             id="description"
