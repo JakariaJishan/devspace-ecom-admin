@@ -26,6 +26,8 @@ const ROLES = {
 
       "create:colors",
       "update:colors",
+      "delete:colors",
+      "view:colors",
   ],
 
   admin: [
@@ -45,6 +47,10 @@ const ROLES = {
       "view:category",
 
       "view:order",
+
+      "view:colors",
+      "create:colors",
+      "update:colors",
   ],
 
   moderator: [],

@@ -19,7 +19,7 @@ const page = () => {
 
   return (
     <div className="flex gap-8">
-      <div className="w-8/12"><ColorList colorList={colorList}/></div>
+      <div className="w-8/12"><ColorList colorList={colorList} setColorList={setColorList} /></div>
       <div className="w-4/12"><ColorPicker mode="create" colorList={colorList} setColorList={setColorList}/></div>
     </div>
   );

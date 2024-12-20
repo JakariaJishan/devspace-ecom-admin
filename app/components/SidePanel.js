@@ -5,6 +5,7 @@ import {usePathname, useRouter} from "next/navigation";
 import toast from "react-hot-toast";
 import {getCookie} from "@/app/utils/cookies";
 import hasPermission from "@/app/lib/roles";
+import Image from 'next/image';
 
 export default function SidePanel({ children }) {
   const pathname = usePathname();
@@ -34,21 +35,25 @@ export default function SidePanel({ children }) {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="flex h-screen w-[20%] flex-col justify-between border-e bg-white">
+      <div className="flex h-screen w-[20%] flex-col justify-between border-e bg-lime-700">
         <div className="px-4 py-6">
-          <span className="grid h-10 w-32 place-content-center rounded-lg bg-gray-100 text-xs text-gray-600">
-            Logo
-          </span>
+          <div className="flex justify-center">
+            <img
+                src="/logo/Devspace_logo1-removebg-preview.png"
+                alt="Logo"
+                className="h-[125px] w-[180px]"
+            />
+          </div>
 
           <ul className="mt-6 space-y-1">
             <li>
               <Link
-                href="/"
-                className={`block rounded-lg px-4 py-2 text-sm font-medium ${
-                  isActive("/dashboard")
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                  href="/"
+                  className={`block rounded-lg px-4 py-2 text-sm font-medium ${
+                      isActive("/")
+                          ? "bg-lime-400 text-white"
+                          : "text-white rounded-lg hover:bg-lime-400"
+                  }`}
               >
                 Dashboard
               </Link>
@@ -60,8 +65,8 @@ export default function SidePanel({ children }) {
                 <summary
                   className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
                     isParentActive("/all_orders")
-                      ? "text-blue-500 bg-blue-100"
-                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                        ? "bg-lime-300 text-grey-200"
+                        : "text-white rounded-lg hover:bg-lime-400"
                   }`}
                 >
                   <span className="text-sm font-medium"> Orders </span>
@@ -88,8 +93,8 @@ export default function SidePanel({ children }) {
                       href="/all_orders"
                       className={`block rounded-lg px-4 py-2 text-sm font-medium ${
                         isActive("/all_orders")
-                          ? "bg-blue-500 text-white"
-                          : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                            ? "bg-lime-400 text-white"
+                            : "text-white rounded-lg hover:bg-lime-400"
                       }`}
                     >
                       All orders
@@ -105,8 +110,8 @@ export default function SidePanel({ children }) {
                 <summary
                   className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
                     isParentActive("/categories")
-                      ? "text-blue-500 bg-blue-100"
-                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                        ? "bg-lime-300 text-grey-200"
+                        : "text-white rounded-lg hover:bg-lime-400"
                   }`}
                 >
                   <span className="text-sm font-medium"> Categories </span>
@@ -134,8 +139,8 @@ export default function SidePanel({ children }) {
                             href="/categories/all"
                             className={`block rounded-lg px-4 py-2 text-sm font-medium ${
                                 isActive("/categories/all")
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                                    ? "bg-lime-400 text-white"
+                                    : "text-white rounded-lg hover:bg-lime-400"
                             }`}
                         >
                           All categories
@@ -149,8 +154,8 @@ export default function SidePanel({ children }) {
                             href="/categories/create"
                             className={`block rounded-lg px-4 py-2 text-sm font-medium ${
                                 isActive("/categories/create")
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                                    ? "bg-lime-400 text-white"
+                                    : "text-white rounded-lg hover:bg-lime-400"
                             }`}
                         >
                           Create Category
@@ -166,8 +171,8 @@ export default function SidePanel({ children }) {
                 <summary
                   className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
                     isParentActive("/products")
-                      ? "text-blue-500 bg-blue-100"
-                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                        ? "bg-lime-300 text-grey-200"
+                        : "text-white rounded-lg hover:bg-lime-400"
                   }`}
                 >
                   <span className="text-sm font-medium"> Products </span>
@@ -195,8 +200,8 @@ export default function SidePanel({ children }) {
                         href="/products/all"
                         className={`block rounded-lg px-4 py-2 text-sm font-medium ${
                           isActive("/products/all")
-                            ? "bg-blue-500 text-white"
-                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                              ? "bg-lime-400 text-white"
+                              : "text-white rounded-lg hover:bg-lime-400"
                         }`}
                       >
                         All products
@@ -209,8 +214,8 @@ export default function SidePanel({ children }) {
                         href="/products/create"
                         className={`block rounded-lg px-4 py-2 text-sm font-medium ${
                           isActive("/products/create")
-                            ? "bg-blue-500 text-white"
-                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                              ? "bg-lime-400 text-white"
+                              : "text-white rounded-lg hover:bg-lime-400"
                         }`}
                       >
                         Create Product
@@ -223,8 +228,8 @@ export default function SidePanel({ children }) {
                         href="/products/colors"
                         className={`block rounded-lg px-4 py-2 text-sm font-medium ${
                           isActive("/products/colors")
-                            ? "bg-blue-500 text-white"
-                            : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                              ? "bg-lime-400 text-white"
+                              : "text-white rounded-lg hover:bg-lime-400"
                         }`}
                       >
                         Colors
@@ -239,8 +244,8 @@ export default function SidePanel({ children }) {
                 <summary
                   className={`flex cursor-pointer items-center justify-between rounded-lg px-4 py-2 ${
                     isParentActive("/admin")
-                      ? "text-blue-500 bg-blue-100"
-                      : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                        ? "bg-lime-300 text-grey-200"
+                        : "text-white rounded-lg hover:bg-lime-400"
                   }`}
                 >
                   <span className="text-sm font-medium"> Manage Admin </span>
@@ -268,8 +273,8 @@ export default function SidePanel({ children }) {
                               href="/admin/create"
                               className={`block rounded-lg px-4 py-2 text-sm font-medium ${
                                   isActive("/admin/create")
-                                      ? "bg-blue-500 text-white"
-                                      : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                                      ? "bg-lime-400 text-white"
+                                      : "text-white rounded-lg hover:bg-lime-400"
                               }`}
                           >
                             Create admin user
@@ -283,8 +288,8 @@ export default function SidePanel({ children }) {
                             href="/admin/view"
                             className={`block rounded-lg px-4 py-2 text-sm font-medium ${
                                 isActive("/admin/view")
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                                    ? "bg-lime-400 text-white"
+                                    : "text-white rounded-lg hover:bg-lime-400"
                             }`}
                         >
                           View admin

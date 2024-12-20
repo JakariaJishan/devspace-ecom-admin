@@ -1,3 +1,5 @@
+import DownloadIcon from "@/app/components/icons/DownloadIcon";
+
 const ExportButton = ({url, title}) => {
   const exportPdfHandler = () => {
     fetch(url, {
@@ -17,15 +19,20 @@ const ExportButton = ({url, title}) => {
     })
   }
   return (
-    <div className="flex justify-end my-4">
-      <button
-        className="block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-        onClick={exportPdfHandler}
-      >
-        Export PDF
-      </button>
-    </div>
-  )
+      <div className="flex justify-end my-4">
+        <button
+            className="flex items-center gap-2 rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+            onClick={exportPdfHandler}
+        >
+          <DownloadIcon
+              size={16}
+              color="currentColor"
+              strokeWidth={2}
+          />
+          Export PDF
+        </button>
+      </div>
+  );
 }
 
 export default ExportButton;
