@@ -16,10 +16,9 @@ const useUpdateData = () => {
     return fetch(url, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload),
+      body: payload,
     })
       .then((response) => {
         if (!response.ok) {

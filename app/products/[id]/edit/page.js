@@ -12,7 +12,6 @@ const page = () => {
   const {data, loading, error} = useGetFetch(apiUrl)
   const {updateData} = useUpdateData()
   const handleSave = async (updatedProduct) => {
-
     updateData(apiUrl, updatedProduct).then(res => {
       toast.success(res.message)
     }).catch(err => {
