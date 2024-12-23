@@ -103,7 +103,7 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="category" className="block text-sm font-medium">
-            Category
+            Category <span className="text-red-500">*</span>
           </label>
           <select
               id="category"
@@ -139,7 +139,7 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
 
         <div>
           <label htmlFor="title" className="block text-sm font-medium">
-            Title
+            Title <span className="text-red-500">*</span>
           </label>
           <input
               type="text"
@@ -154,7 +154,7 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
 
         <div>
           <label htmlFor="description" className="block text-sm font-medium">
-            Description
+            Description <span className="text-red-500">*</span>
           </label>
           <textarea
               id="description"
@@ -168,7 +168,7 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
 
         <div>
           <label htmlFor="price" className="block text-sm font-medium">
-            Price
+            Price <span className="text-red-500">*</span>
           </label>
           <input
               type="number"
@@ -183,7 +183,7 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
 
         <div>
           <label htmlFor="stock_quantity" className="block text-sm font-medium">
-            Stock Quantity
+            Stock Quantity <span className="text-red-500">*</span>
           </label>
           <input
               type="number"
@@ -198,7 +198,7 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
 
         <div>
           <label htmlFor="currency" className="block text-sm font-medium">
-            Currency
+            Currency <span className="text-red-500">*</span>
           </label>
           <select
               id="currency"
@@ -206,6 +206,7 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
               value={formData.currency}
               onChange={handleInputChange}
               className="mt-1 p-2 border rounded w-full"
+              required
           >
             <option value="bd">BD</option>
             <option value="usd">USD</option>
