@@ -1,7 +1,13 @@
 "use client"
 import React, { useState } from "react";
+import MultiSelect from "@/app/lib/MultiSelect";
+import MultiSizeSelect from "@/app/lib/MultiSizeSelect";
 
 const ProductCreateForm = ({ onCreate, categories, colors }) => {
+
+  const [selectedColors, setSelectedColors] = useState([]); // array of { value, label } from MultiSelect
+  const [selectedSizes, setSelectedSizes] = useState([]);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -12,7 +18,7 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
     images: [], // This will store the uploaded image files
     category_id: "",
     admin_user_id: JSON.parse(localStorage.getItem("admin_user")).id,
-    color_ids: [],
+
   });
 
   // Handle input changes
@@ -33,11 +39,33 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
     }));
   };
 
+  const handleColorChange = (newColors) => {
+    // newColors is an array of { value: number, label: string }
+    setSelectedColors(newColors);
+  };
+
+  const handleSizeChange = (newSizes) => {
+    // newSizes is an array of { value: number, label: string }
+    setSelectedSizes(newSizes);
+  };
+
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
+    const productVariants = [];
+
+    // Push color-only variants
+    selectedColors.forEach((color) => {
+      productVariants.push({ color_id: color.value });
+    });
+
+    // Push size-only variants
+    selectedSizes.forEach((size) => {
+      productVariants.push({ size_id: size.value });
+    });
+
     const form = new FormData();
-    // Append form data fields to FormData
     form.append("product[title]", formData.title);
     form.append("product[description]", formData.description);
     form.append("product[price]", formData.price);
@@ -47,14 +75,26 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
     form.append("product[category_id]", formData.category_id);
     form.append("product[admin_user_id]", formData.admin_user_id);
 
-    formData.color_ids.forEach((id) => {
-      form.append("product[color_ids][]", id);
+    productVariants.forEach((variant, index) => {
+      if (variant.color_id !== undefined) {
+        form.append(
+            `product[product_variants_attributes][${index}][color_id]`,
+            variant.color_id
+        );
+      }
+      if (variant.size_id !== undefined) {
+        form.append(
+            `product[product_variants_attributes][${index}][size_id]`,
+            variant.size_id
+        );
+      }
     });
-    // Append each image file to FormData
+
     formData.images.forEach((image, index) => {
-      form.append("product[images][]", image); // Note: 'images[]' is the key name
+      form.append("product[images][]", image);
     });
-    onCreate(form); // Call the onCreate function passed as a prop with the form data
+
+    onCreate(form);
   };
 
   return (
@@ -66,41 +106,35 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
             Category
           </label>
           <select
-            id="category"
-            name="category_id"
-            value={formData.category_id}
-            onChange={handleInputChange}
-            className="mt-1 p-2 border rounded w-full"
-            required
-          >
-            <option value="">Select a category</option>
-            {categories?.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.title}
-              </option>
-            ))}
-          </select>
-
-        </div>
-        <div>
-          <label htmlFor="color" className="block text-sm font-medium">
-            Colors
-          </label>
-          <select
-              id="color"
-              name="color_id"
-              value={formData.color_id}
+              id="category"
+              name="category_id"
+              value={formData.category_id}
               onChange={handleInputChange}
               className="mt-1 p-2 border rounded w-full"
               required
           >
-            <option value="">Select a Color</option>
-            {colors?.map((color) => (
-                <option key={color.id} value={color.id}>
-                  {color.name}
+            <option value="">Select a category</option>
+            {categories?.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.title}
                 </option>
             ))}
           </select>
+
+        </div>
+
+        <div>
+          <label htmlFor="color" className="block text-sm font-medium">
+            Colors
+          </label>
+          <MultiSelect onChange={handleColorChange}/>
+        </div>
+
+        <div>
+          <label htmlFor="size" className="block text-sm font-medium">
+            Sizes
+          </label>
+          <MultiSizeSelect onChange={handleSizeChange}/>
         </div>
 
         <div>
@@ -120,15 +154,15 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
 
         <div>
           <label htmlFor="description" className="block text-sm font-medium">
-          Description
+            Description
           </label>
           <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            className="mt-1 p-2 border rounded w-full"
-            required
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleInputChange}
+              className="mt-1 p-2 border rounded w-full"
+              required
           />
         </div>
 
@@ -137,13 +171,13 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
             Price
           </label>
           <input
-            type="number"
-            id="price"
-            name="price"
-            value={formData.price}
-            onChange={handleInputChange}
-            className="mt-1 p-2 border rounded w-full"
-            required
+              type="number"
+              id="price"
+              name="price"
+              value={formData.price}
+              onChange={handleInputChange}
+              className="mt-1 p-2 border rounded w-full"
+              required
           />
         </div>
 
@@ -152,13 +186,13 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
             Stock Quantity
           </label>
           <input
-            type="number"
-            id="stock_quantity"
-            name="stock_quantity"
-            value={formData.stock_quantity}
-            onChange={handleInputChange}
-            className="mt-1 p-2 border rounded w-full"
-            required
+              type="number"
+              id="stock_quantity"
+              name="stock_quantity"
+              value={formData.stock_quantity}
+              onChange={handleInputChange}
+              className="mt-1 p-2 border rounded w-full"
+              required
           />
         </div>
 
@@ -167,11 +201,11 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
             Currency
           </label>
           <select
-            id="currency"
-            name="currency"
-            value={formData.currency}
-            onChange={handleInputChange}
-            className="mt-1 p-2 border rounded w-full"
+              id="currency"
+              name="currency"
+              value={formData.currency}
+              onChange={handleInputChange}
+              className="mt-1 p-2 border rounded w-full"
           >
             <option value="bd">BD</option>
             <option value="usd">USD</option>
@@ -184,12 +218,12 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
             Trending
           </label>
           <input
-            type="checkbox"
-            id="trending"
-            name="trending"
-            checked={formData.trending}
-            onChange={handleInputChange}
-            className="mt-1"
+              type="checkbox"
+              id="trending"
+              name="trending"
+              checked={formData.trending}
+              onChange={handleInputChange}
+              className="mt-1"
           />
         </div>
 
@@ -198,20 +232,20 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
             Product Images
           </label>
           <input
-            type="file"
-            id="images"
-            name="images"
-            accept="image/*"
-            multiple
-            onChange={handleImageChange}
-            className="mt-1 p-2 border rounded w-full"
+              type="file"
+              id="images"
+              name="images"
+              accept="image/*"
+              multiple
+              onChange={handleImageChange}
+              className="mt-1 p-2 border rounded w-full"
           />
         </div>
 
         <div className="mt-4">
           <button
-            type="submit"
-            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             Create Product
           </button>

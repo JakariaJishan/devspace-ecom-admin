@@ -11,7 +11,7 @@ import {
 import { Command as CommandPrimitive } from "cmdk";
 import { Badge } from "@/components/ui/badge";
 
-function MultiSelect() {
+function MultiSelect({ onChange }) {
   const inputRef = useRef(null);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState([]);
@@ -22,7 +22,7 @@ function MultiSelect() {
   useEffect(() => {
     const fetchColors = async () => {
       try {
-        const response = await fetch("http://localhost:3000/admin/colors/");
+        const response = await fetch("http://localhost:3000/admin/colors/",);
         const data = await response.json();
         if (data.success) {
           setOptions(
@@ -36,31 +36,37 @@ function MultiSelect() {
         console.error("Failed to fetch colors:", error);
       }
     };
-
     fetchColors();
   }, []);
 
   const handleUnselect = useCallback((item) => {
-    setSelected((prev) => prev.filter((s) => s.value !== item.value));
-  }, []);
+    setSelected((prev) => {
+      const newSelected = prev.filter((s) => s.value !== item.value);
+      // ** Whenever selected changes, also call onChange so parent knows. **
+      onChange?.(newSelected);
+      return newSelected;
+    });
+  }, [onChange]);
 
-  const handleKeyDown = useCallback((e) => {
-    const input = inputRef.current;
-    if (input) {
-      if (e.key === "Delete" || e.key === "Backspace") {
-        if (input.value === "") {
-          setSelected((prev) => {
-            const newSelected = [...prev];
-            newSelected.pop();
-            return newSelected;
-          });
+  const handleKeyDown = useCallback(
+      (e) => {
+        const input = inputRef.current;
+        if (input) {
+          if ((e.key === "Delete" || e.key === "Backspace") && input.value === "") {
+            setSelected((prev) => {
+              const newSelected = [...prev];
+              newSelected.pop();
+              onChange?.(newSelected);
+              return newSelected;
+            });
+          }
+          if (e.key === "Escape") {
+            input.blur();
+          }
         }
-      }
-      if (e.key === "Escape") {
-        input.blur();
-      }
-    }
-  }, []);
+      },
+      [onChange]
+  );
 
   const selectables = options.filter(
       (option) => !selected.some((s) => s.value === option.value)
@@ -113,12 +119,18 @@ function MultiSelect() {
                         <CommandItem
                             key={item.value}
                             onMouseDown={(e) => {
+                              // prevent the input losing focus
                               e.preventDefault();
                               e.stopPropagation();
                             }}
                             onSelect={() => {
                               setInputValue("");
-                              setSelected((prev) => [...prev, item]);
+                              setSelected((prev) => {
+                                const newSelected = [...prev, item];
+                                // ** Whenever selected changes, call onChange so parent knows. **
+                                onChange?.(newSelected);
+                                return newSelected;
+                              });
                             }}
                             className="cursor-pointer bg-white"
                         >
