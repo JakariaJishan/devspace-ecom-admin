@@ -43,7 +43,7 @@ export default function SidePanel({ children }) {
   return (
       <div className="flex h-screen">
         {/* Sidebar */}
-        <div className="flex h-screen w-[20%] flex-col justify-between border-e bg-[#405189]">
+        <div className="flex h-screen w-[13%] flex-col justify-between border-e bg-[#405189]">
           <div className="px-4 py-6">
             <div className="flex justify-center">
               <img
