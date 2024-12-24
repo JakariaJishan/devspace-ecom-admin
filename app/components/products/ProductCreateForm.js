@@ -7,6 +7,7 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
 
   const [selectedColors, setSelectedColors] = useState([]); // array of { value, label } from MultiSelect
   const [selectedSizes, setSelectedSizes] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -36,6 +37,10 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
       ...prevData,
       images: files,
     }));
+
+    // Generate preview URLs for all selected files
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setPreviewImages(previews);
   };
 
   const handleColorChange = (newColors) => {
@@ -240,6 +245,21 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
               className="mt-1 p-2 border rounded w-full"
           />
         </div>
+
+        {/* Image Preview */}
+        {previewImages.length > 0 && (
+            <div className="mt-4 flex flex-wrap">
+              {previewImages.map((preview, index) => (
+                  <div key={index} className="flex-none">
+                    <img
+                        src={preview}
+                        alt={`Preview ${index + 1}`}
+                        className="w-32 h-32 rounded border shadow-md object-cover"
+                    />
+                  </div>
+              ))}
+            </div>
+        )}
 
         <div className="mt-4">
           <button

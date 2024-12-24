@@ -5,6 +5,7 @@ import MultiSizeSelectEdit from "@/app/lib/MultiSizeSelectEdit";
 const ProductEditForm = ({ product, onSave }) => {
   const [selectedColors, setSelectedColors] = useState([]); // array of { value, label } from MultiSelect
   const [selectedSizes, setSelectedSizes] = useState([]);
+  const [previewImages, setPreviewImages] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -44,6 +45,10 @@ const ProductEditForm = ({ product, onSave }) => {
         }));
         setSelectedSizes(initialSizes);
       }
+      if (product.images) {
+        const existingPreviews = product.images.map((image) => image.url); // Assuming `url` contains the image path
+        setPreviewImages(existingPreviews);
+      }
     }
   }, [product]);
 
@@ -65,6 +70,10 @@ const ProductEditForm = ({ product, onSave }) => {
       ...prevData,
       images: files,
     }));
+
+    // Add previews for new images
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    setPreviewImages((prevPreviews) => [...prevPreviews, ...newPreviews]);
   };
 
   const handleColorChange = (newColors) => {
@@ -219,6 +228,20 @@ const ProductEditForm = ({ product, onSave }) => {
                 className="mt-1"
             />
           </div>
+
+          {previewImages.length > 0 && (
+              <div className="mt-4 flex flex-wrap">
+                {previewImages.map((preview, index) => (
+                    <div key={index} className="m-1">
+                      <img
+                          src={preview}
+                          alt={`Preview ${index + 1}`}
+                          className="w-32 h-32 rounded border shadow-md object-cover"
+                      />
+                    </div>
+                ))}
+              </div>
+          )}
 
           <div>
             <label htmlFor="images" className="block text-sm font-medium">

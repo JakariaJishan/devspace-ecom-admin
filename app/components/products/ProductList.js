@@ -28,11 +28,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Switch } from "@/components/ui/switch"
 import EditIcon from "@/app/components/icons/EditIcon";
 import TrashIcon from "@/app/components/icons/TrashIcon";
 import PlusIcon from "@/app/components/icons/PlusIcon";
 
 const ProductList = ({ products, updateProducts }) => {
+  const [switchStates, setSwitchStates] = useState(
+      products.reduce((acc, product) => {
+        acc[product.id] = product.trending;
+        return acc;
+      }, {})
+  );
   const [userRoles, setUserRoles] = useState([]);
   const router = useRouter();
 
@@ -73,19 +80,49 @@ const ProductList = ({ products, updateProducts }) => {
         });
   };
 
-  const handleUpdate = (productId, status) => {
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`
+  const handleUpdate = (productId, trendingStatus) => {
+    // Use the new route for admin trending status update
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/admin_product_trending_status_update`;
+
     const payload = {
-      product: {
-        publish: status,
-      }
-    }
-    updateData(apiUrl, payload).then(res => {
-      toast.success(res.message)
-    }).catch((err => {
-      toast.error(err.message)
-    }))
-  }
+      product_id: productId, // Pass product_id as required by your route
+      trending: trendingStatus,
+    };
+
+    fetch(apiUrl, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getCookie("token")}`, // Add Authorization header if required
+      },
+      body: JSON.stringify(payload),
+    })
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((error) => {
+              throw new Error(error.message || "Failed to update trending status.");
+            });
+          }
+          return response.json();
+        })
+        .then((res) => {
+          toast.success("Trending status updated successfully!");
+          setSwitchStates((prev) => ({
+            ...prev,
+            [productId]: trendingStatus,
+          }));
+        })
+        .catch((err) => {
+          toast.error(err.message || "Failed to update trending status.");
+          // Revert the toggle in case of error
+          setSwitchStates((prev) => ({
+            ...prev,
+            [productId]: !trendingStatus,
+          }));
+        });
+  };
+
+
 
   return (
       <div className="container mx-auto p-4 bg-white">
@@ -144,7 +181,21 @@ const ProductList = ({ products, updateProducts }) => {
                     {product.price} {product.currency}
                   </TableCell>
                   <TableCell>{product.stock_quantity}</TableCell>
-                  <TableCell>{product.trending ? "Yes" : "No"}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                          id={`trending-${product.id}`}
+                          checked={switchStates[product.id] || false}
+                          onCheckedChange={(checked) => {
+                            setSwitchStates((prev) => ({
+                              ...prev,
+                              [product.id]: checked,
+                            }));
+                            handleUpdate(product.id, checked);
+                          }}
+                      />
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       {hasPermission({roles: userRoles}, "update:products") && (

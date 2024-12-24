@@ -8,6 +8,7 @@ const CategoryCreateForm = ({ onCreate }) => {
     admin_user_id: JSON.parse(localStorage.getItem("admin_user")).id,
 
   });
+  const [previewImage, setPreviewImage] = useState(null);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -20,10 +21,14 @@ const CategoryCreateForm = ({ onCreate }) => {
 
   // Handle image file selection
   const handleImageChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      image: e.target.files[0],
-    }));
+    const file = e.target.files[0];
+    if (file) {
+      setFormData((prevData) => ({
+        ...prevData,
+        image: file,
+      }));
+      setPreviewImage(URL.createObjectURL(file)); // Set the preview URL
+    }
   };
 
   // Handle form submission
@@ -58,6 +63,18 @@ const CategoryCreateForm = ({ onCreate }) => {
             required
           />
         </div>
+
+        {/* Image Preview */}
+        {previewImage && (
+            <div className="mt-4">
+              <p className="text-sm text-gray-500 mb-2">Image Preview:</p>
+              <img
+                  src={previewImage}
+                  alt="Preview"
+                  className="w-32 h-32 rounded border shadow-md object-cover" // Updated styling
+              />
+            </div>
+        )}
 
         <div>
           <label htmlFor="images" className="block text-sm font-medium">
