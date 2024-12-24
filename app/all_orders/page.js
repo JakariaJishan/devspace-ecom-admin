@@ -8,6 +8,7 @@ import ExportButton from "@/app/components/orders/ExportButton";
 import useUpdateData from "@/app/hooks/useUpdateData";
 import useDeleteData from "@/app/hooks/useDeleteData";
 import toast from "react-hot-toast";
+import {getCookie} from "@/app/utils";
 
 const page = () => {
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/admin/orders`;
@@ -43,10 +44,30 @@ const page = () => {
   };
 
   const handleUpdateStatus = async (orderId, newStatus) => {
-    console.log("Payload being sent:", { order_id: orderId, order_status: newStatus });
     try {
-      const payload = { order_id: orderId, order_status: newStatus };
-      const response = await updateData(orderUpdateUrl, payload);
+      // Construct the payload
+      const payload = JSON.stringify({ order_id: orderId, order_status: newStatus });
+
+      // Log the payload for debugging
+      console.log("Payload being sent:", payload);
+
+      // Send the PATCH request directly
+      const response = await fetch(orderUpdateUrl, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json", // Specify JSON content type
+          Authorization: `Bearer ${getCookie("token")}`, // Add authorization token
+        },
+        body: payload,
+      });
+
+      // Handle response
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to update order status");
+      }
+
+      const responseData = await response.json();
 
       // Update the order status in the local state
       setOrders((prevOrders) =>
@@ -55,11 +76,14 @@ const page = () => {
           )
       );
 
-      toast.success(response.message || "Order status updated successfully!");
+      // Show success message
+      toast.success(responseData.message || "Order status updated successfully!");
     } catch (error) {
+      // Show error message
       toast.error(error.message || "Failed to update order status");
     }
   };
+
 
   if (loading) {
     return <Loader />;
