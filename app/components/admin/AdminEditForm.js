@@ -6,6 +6,10 @@ import usePostData from "@/app/hooks/usePostData";
 import useGetFetch from "@/app/hooks/useGetFetch";
 import toast from "react-hot-toast";
 import useUpdateData from "@/app/hooks/useUpdateData";
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+import {getCookie} from "@/app/utils";
 
 const AdminEditForm = () => {
     const router = useRouter();
@@ -59,67 +63,91 @@ const AdminEditForm = () => {
         const newErrors = {};
         if (!formData.email.includes("@")) newErrors.email = "Invalid email address.";
         if (!formData.name) newErrors.name = "Name is required.";
-        if (formData.mobile_no && !/^\d{10}$/.test(formData.mobile_no))
-            newErrors.mobile_no = "Invalid mobile number.";
+        // if (formData.mobile_no && !/^\d{10}$/.test(formData.mobile_no))
+        //     newErrors.mobile_no = "Invalid mobile number.";
         return newErrors;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validate form
         const newErrors = validateForm();
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
 
-        // Prepare the payload
-        const payload = {
-            admin_user: {
-                email: formData.email,
-                name: formData.name,
-                mobile_no: formData.mobile_no,
-                gender: formData.gender,
-                bio: formData.bio,
-                roles: [formData.roles], // Ensure roles is an array
-            },
-        };
+        const token = getCookie("token");
 
-        if (file) {
-            // If there's a file, handle it separately using FormData
-            const form = new FormData();
-            Object.keys(payload.admin_user).forEach((key) => {
-                if (key === "roles") {
-                    payload.admin_user.roles.forEach((role) =>
-                        form.append(`admin_user[roles][]`, role)
-                    );
-                } else {
-                    form.append(`admin_user[${key}]`, payload.admin_user[key]);
-                }
-            });
-            form.append("admin_user[avatar]", file);
+        try {
+            if (file) {
+                // Handle file upload with FormData
+                const form = new FormData();
+                Object.keys(formData).forEach((key) => {
+                    if (key === "roles") {
+                        formData.roles.forEach((role) =>
+                            form.append(`admin_user[roles][]`, role)
+                        );
+                    } else {
+                        form.append(`admin_user[${key}]`, formData[key]);
+                    }
+                });
+                form.append("admin_user[avatar]", file);
 
-            updateData(apiUrl, form)
-                .then((response) => {
-                    toast.success(response.message || "Admin updated successfully!");
-                    router.push("/admin/view");
-                })
-                .catch((err) => {
-                    toast.error(err.message || "Failed to update admin.");
+                const response = await fetch(apiUrl, {
+                    method: "PATCH",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: form,
                 });
 
-            return;
-        }
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || "Failed to update admin.");
+                }
 
-        // If no file, send JSON payload
-        updateData(apiUrl, payload)
-            .then((response) => {
-                toast.success(response.message || "Admin updated successfully!");
+                const responseData = await response.json();
+                toast.success(responseData.message || "Admin updated successfully!");
                 router.push("/admin/view");
-            })
-            .catch((err) => {
-                toast.error(err.message || "Failed to update admin.");
+                return;
+            }
+
+            // Handle JSON payload if no file
+            const payload = {
+                admin_user: {
+                    email: formData.email,
+                    name: formData.name,
+                    mobile_no: formData.mobile_no,
+                    gender: formData.gender,
+                    bio: formData.bio,
+                    roles: [formData.roles], // Ensure roles is an array
+                },
+            };
+
+            const response = await fetch(apiUrl, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(payload),
             });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to update admin.");
+            }
+
+            const responseData = await response.json();
+            toast.success(responseData.message || "Admin updated successfully!");
+            router.push("/admin/view");
+        } catch (error) {
+            toast.error(error.message || "Failed to update admin.");
+        }
     };
+
 
 
     if (loading) {
@@ -161,16 +189,22 @@ const AdminEditForm = () => {
 
             <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">Mobile No:</label>
-                <input
-                    type="text"
-                    name="mobile_no"
-                    value={formData.mobile_no}
-                    onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded cursor-not-allowed"
-                    disabled
+                <PhoneInput
+                    country={'bd'} // Default country code
+                    value={formData.mobile_no} // Populate with the admin's phone number
+                    onChange={(value) =>
+                        setFormData((prevFormData) => ({...prevFormData, mobile_no: value}))
+                    }
+                    inputClass="w-full p-2 border border-gray-300 rounded" // Input styling
+                    containerStyle={{width: '100%'}} // Container styling
+                    enableSearch={true} // Allow search for country codes
+                    disabled // Disable editing (optional, based on your form logic)
                 />
-                {errors.mobile_no && <span className="text-red-500 text-sm">{errors.mobile_no}</span>}
+                {errors.mobile_no && (
+                    <span className="text-red-500 text-sm">{errors.mobile_no}</span>
+                )}
             </div>
+
 
             <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">Gender:</label>
