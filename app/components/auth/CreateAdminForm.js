@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import usePostData from "@/app/hooks/usePostData";
 import toast from "react-hot-toast";
 import {getCookie} from "@/app/utils/cookies";
@@ -108,25 +108,27 @@ const CreateAdminForm = () => {
       <h2 className="text-2xl font-bold text-center mb-6">Create Admin</h2>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Email:</label>
+        <label className="block text-sm font-medium mb-1">Email: <span className="text-red-500">*</span> </label>
         <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
         />
         {errors.email && <span className="text-red-500 text-sm">{errors.email}</span>}
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Name:</label>
+        <label className="block text-sm font-medium mb-1">Name: <span className="text-red-500">*</span></label>
         <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
         />
         {errors.name && <span className="text-red-500 text-sm">{errors.name}</span>}
       </div>
@@ -142,7 +144,7 @@ const CreateAdminForm = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Mobile No:</label>
+        <label className="block text-sm font-medium mb-1">Mobile No: <span className="text-red-500">*</span></label>
         <PhoneInput
             country={'bd'}
             value={formData.mobile_no}
@@ -184,12 +186,13 @@ const CreateAdminForm = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Roles:</label>
+        <label className="block text-sm font-medium mb-1">Roles: <span className="text-red-500">*</span></label>
         <select
-          name="roles"
-          value={formData.roles}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
+            name="roles"
+            value={formData.roles}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
         >
           <option value="">Select Role</option>
           <option value="admin">Admin</option>
@@ -199,24 +202,27 @@ const CreateAdminForm = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Password:</label>
+        <label className="block text-sm font-medium mb-1">Password: <span className="text-red-500">*</span></label>
         <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
         />
         {errors.password && <span className="text-red-500 text-sm">{errors.password}</span>}
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Confirm Password:</label>
+        <label className="block text-sm font-medium mb-1">Confirm Password: <span
+            className="text-red-500">*</span></label>
         <input
-          type="password"
-          name="confirm_password"
-          value={formData.confirm_password}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
+            type="password"
+            name="confirm_password"
+            value={formData.confirm_password}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+            required
         />
         {(formData.password.length > 0 && formData.confirm_password.length> 0) && (formData.password !== formData.confirm_password) && <span className="text-red-500 text-sm">Password and confirm password do not match</span>}
       </div>

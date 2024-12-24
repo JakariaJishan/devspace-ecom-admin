@@ -27,7 +27,7 @@ function MultiSelectEdit({ onChange, value = [] }) {
     useEffect(() => {
         const fetchColors = async () => {
             try {
-                const response = await fetch("http://localhost:3000/admin/colors/");
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/colors/`);
                 const data = await response.json();
                 if (data.success) {
                     setOptions(

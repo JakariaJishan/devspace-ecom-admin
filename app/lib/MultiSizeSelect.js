@@ -24,7 +24,7 @@ function MultiSizeSelect({ onChange }) {
         const token = getCookie("token");
         const fetchColors = async () => {
             try {
-                const response = await fetch("http://localhost:3000/admin/sizes/",
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/sizes/`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`, // Include the Authorization header

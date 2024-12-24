@@ -46,10 +46,10 @@ const CategoryCreateForm = ({ onCreate }) => {
 
         <div>
           <label htmlFor="title" className="block text-sm font-medium">
-            Title
+            Title <span className="text-red-500">*</span>
           </label>
           <input
-            type="text"
+              type="text"
             id="title"
             name="title"
             value={formData.title}
@@ -61,10 +61,10 @@ const CategoryCreateForm = ({ onCreate }) => {
 
         <div>
           <label htmlFor="images" className="block text-sm font-medium">
-            Category Image
+            Category Image <span className="text-red-500">*</span>
           </label>
           <input
-            type="file"
+              type="file"
             id="image"
             name="image"
             accept="image/*"
