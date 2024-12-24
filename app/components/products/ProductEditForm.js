@@ -83,7 +83,7 @@ const ProductEditForm = ({ product, onSave }) => {
 
     const form = new FormData();
 
-    // Append form data fields to FormData
+    // Append basic product fields
     form.append("product[title]", formData.title);
     form.append("product[description]", formData.description);
     form.append("product[price]", formData.price);
@@ -91,28 +91,26 @@ const ProductEditForm = ({ product, onSave }) => {
     form.append("product[currency]", formData.currency);
     form.append("product[trending]", formData.trending);
 
-    // Append product variants
-    selectedColors.forEach((color, index) => {
-      form.append(
-          `product[product_variants_attributes][${index}][color_id]`,
-          color.value
-      );
+    // Combine selected colors and sizes into a flattened array of objects
+    const productVariants = [];
+    selectedColors.forEach((color) => {
+      productVariants.push({ color_id: color.value }); // Add color_id as a separate object
     });
 
-    selectedSizes.forEach((size, index) => {
-      form.append(
-          `product[product_variants_attributes][${index}][size_id]`,
-          size.value
-      );
+    selectedSizes.forEach((size) => {
+      productVariants.push({ size_id: size.value }); // Add size_id as a separate object
     });
+
+    // Append product_variants_attributes as JSON
+    form.append("product[product_variants_attributes]", JSON.stringify(productVariants));
 
     // Append each image file
-    formData.images.forEach((image, index) => {
+    formData.images.forEach((image) => {
       form.append("product[images][]", image);
     });
+
     onSave(form); // Send the form data to the parent for API submission
   };
-
 
   return (
       <div className="container mx-auto p-4">

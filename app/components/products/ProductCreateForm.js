@@ -18,7 +18,6 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
     images: [], // This will store the uploaded image files
     category_id: "",
     admin_user_id: JSON.parse(localStorage.getItem("admin_user")).id,
-
   });
 
   // Handle input changes
@@ -52,7 +51,6 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     const productVariants = [];
 
     // Push color-only variants
@@ -65,36 +63,36 @@ const ProductCreateForm = ({ onCreate, categories, colors }) => {
       productVariants.push({ size_id: size.value });
     });
 
-    // const form = new FormData();
-    // form.append("product[title]", formData.title);
-    // form.append("product[description]", formData.description);
-    // form.append("product[price]", formData.price);
-    // form.append("product[stock_quantity]", formData.stock_quantity);
-    // form.append("product[currency]", formData.currency);
-    // form.append("product[trending]", formData.trending);
-    // form.append("product[category_id]", formData.category_id);
-    // form.append("product[admin_user_id]", formData.admin_user_id);
-    //
-    // productVariants.forEach((variant, index) => {
-    //   if (variant.color_id !== undefined) {
-    //     form.append(
-    //         `product[product_variants_attributes][${index}][color_id]`,
-    //         variant.color_id
-    //     );
-    //   }
-    //   if (variant.size_id !== undefined) {
-    //     form.append(
-    //         `product[product_variants_attributes][${index}][size_id]`,
-    //         variant.size_id
-    //     );
-    //   }
-    // });
-    //
-    // formData.images.forEach((image, index) => {
-    //   form.append("product[images][]", image);
-    // });
-    //
-    // onCreate(form);
+    const form = new FormData();
+    form.append("product[title]", formData.title);
+    form.append("product[description]", formData.description);
+    form.append("product[price]", formData.price);
+    form.append("product[stock_quantity]", formData.stock_quantity);
+    form.append("product[currency]", formData.currency);
+    form.append("product[trending]", formData.trending);
+    form.append("product[category_id]", formData.category_id);
+    form.append("product[admin_user_id]", formData.admin_user_id);
+
+    productVariants.forEach((variant, index) => {
+      if (variant.color_id !== undefined) {
+        form.append(
+            `product[product_variants_attributes][${index}][color_id]`,
+            variant.color_id
+        );
+      }
+      if (variant.size_id !== undefined) {
+        form.append(
+            `product[product_variants_attributes][${index}][size_id]`,
+            variant.size_id
+        );
+      }
+    });
+
+    formData.images.forEach((image, index) => {
+      form.append("product[images][]", image);
+    });
+
+    onCreate(form);
   };
 
   return (
