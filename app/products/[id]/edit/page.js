@@ -1,5 +1,5 @@
 "use client"
-import {useParams} from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import toast from "react-hot-toast";
 import useGetFetch from "@/app/hooks/useGetFetch";
 import Loader from "@/app/lib/Loader";
@@ -7,6 +7,7 @@ import useUpdateData from "@/app/hooks/useUpdateData";
 import ProductEditForm from "@/app/components/products/ProductEditForm";
 
 const page = () => {
+  const router = useRouter();
   const {id} = useParams();
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`
   const {data, loading, error} = useGetFetch(apiUrl)
@@ -14,6 +15,7 @@ const page = () => {
   const handleSave = async (updatedProduct) => {
     updateData(apiUrl, updatedProduct).then(res => {
       toast.success(res.message)
+      router.push("/products/all")
     }).catch(err => {
       toast.error(err.message)
     })
