@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/table"
 import EditIcon from "@/app/components/icons/EditIcon";
 import TrashIcon from "@/app/components/icons/TrashIcon";
+import PlusIcon from "@/app/components/icons/PlusIcon";
 
 const ProductList = ({ products, updateProducts }) => {
   const [userRoles, setUserRoles] = useState([]);
@@ -92,9 +93,12 @@ const ProductList = ({ products, updateProducts }) => {
           <h1 className="text-2xl font-bold">Product List</h1>
           {hasPermission({roles: userRoles}, "update:products") && (
               <Link
-                  className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                  className="inline-flex items-center gap-2 rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                   href="/products/create"
               >
+                <PlusIcon size={16}
+                          color="currentColor"
+                          strokeWidth={2}/>
                 Add new product
               </Link>
           )}

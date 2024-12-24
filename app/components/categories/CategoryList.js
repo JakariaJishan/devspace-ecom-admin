@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/table"
 import EditIcon from "@/app/components/icons/EditIcon";
 import TrashIcon from "@/app/components/icons/TrashIcon";
+import PlusIcon from "@/app/components/icons/PlusIcon";
 
 const CategoryList = ({categories, updateCategories}) => {
   const router = useRouter()
@@ -56,9 +57,12 @@ const CategoryList = ({categories, updateCategories}) => {
           <h1 className="text-2xl font-bold">Category List</h1>
           {hasPermission({roles: rolesFromCookie}, "create:category") && (
               <Link
-                  className="inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                  className="inline-flex items-center gap-2 rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
                   href="/categories/create"
               >
+                <PlusIcon size={16}
+                          color="currentColor"
+                          strokeWidth={2}/>
                 Add new category
               </Link>
           )}
@@ -94,23 +98,23 @@ const CategoryList = ({categories, updateCategories}) => {
                   <TableCell>{category.admin_user.name}</TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      {hasPermission({ roles: rolesFromCookie }, "update:category") && (
+                      {hasPermission({roles: rolesFromCookie}, "update:category") && (
                           <button
                               onClick={() => handleEdit(category.id)}
                               className="p-2 rounded text-blue-600 hover:bg-blue-100"
                               title="Edit Category"
                           >
-                            <EditIcon size={16} />
+                            <EditIcon size={16}/>
                           </button>
                       )}
-                      {hasPermission({ roles: rolesFromCookie }, "delete:category") && (
+                      {hasPermission({roles: rolesFromCookie}, "delete:category") && (
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
                               <button
                                   className="p-2 rounded text-red-600 hover:bg-red-100"
                                   title="Delete Category"
                               >
-                                <TrashIcon size={16} />
+                                <TrashIcon size={16}/>
                               </button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
